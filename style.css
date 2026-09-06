@@ -89,7 +89,7 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
 @keyframes hintPulse{0%,100%{opacity:.7} 50%{opacity:1}}
 
 /* ================ HUD (sempre visível, acima do painel K) ================ */
-.hud-root{position:fixed; inset:0; z-index:15; pointer-events:none;}
+.hud-root{position:fixed; inset:0; z-index:8; pointer-events:none;}
 
 .hud-testpanel{
   position:fixed; top:180px; right:26px;
