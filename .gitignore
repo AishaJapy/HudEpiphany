@@ -1,0 +1,6 @@
+# arquivos de trabalho (Photoshop) — não são usados pelo site, só ocupam espaço
+*.psd
+
+# sistema
+.DS_Store
+Thumbs.db

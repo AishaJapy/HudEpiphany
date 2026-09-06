@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Skyrim Epiphany — Painel do Reino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ ÍCONES (sprite) ============ -->
+<svg style="display:none">
+<defs>
+<symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2.5 4L17 12H4"/></symbol>
+<symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V9"/><path d="M19 21V9"/><path d="M9 21V9"/><path d="M15 21V9"/><path d="M2 9l10-6 10 6"/></symbol>
+<symbol id="i-id" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8.5" cy="11.5" r="2"/><path d="M14 10h5"/><path d="M14 14h5"/><path d="M4.5 17.5c.8-1.8 2.3-2.7 4-2.7s3.2.9 4 2.7"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 7v13a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7l-3-5Z"/><path d="M3 7h18"/><path d="M16 11a4 4 0 0 1-8 0"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.3.6.9 1 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+<symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 18h18l-1.5-9-4.5 4-3-6-3 6-4.5-4Z"/><path d="M4.5 20.5h15"/></symbol>
+<symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="6" ry="3.2"/><path d="M3 7v6c0 1.8 2.7 3.2 6 3.2s6-1.4 6-3.2V7"/><path d="M3 13v3.2c0 1.77 2.68 3.2 6 3.2s6-1.43 6-3.2V13"/><ellipse cx="17" cy="12.5" rx="4.2" ry="2.3" opacity=".0"/></symbol>
+<symbol id="i-swords" viewBox="0 0 24 24"><path d="m14.5 17.5 3 3L21 18l-3-3"/><path d="M3 21l6.5-6.5"/><path d="M3 3l7 7 2-2-7-7Z" opacity="0"/><path d="M14.5 6.5 21 0"/><path d="m3 3 8.5 8.5"/><path d="m9.5 14.5 2-2"/><path d="M3 3l18 18" opacity="0"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v4"/><path d="M8 23h8"/></symbol>
+<symbol id="i-volume" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.6 22.2 9.3 17 14.1 18.5 21.2 12 17.6 5.5 21.2 7 14.1 1.8 9.3 8.9 8.6"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+<symbol id="i-wolf" viewBox="0 0 24 24"><path d="M4 20 6 9l3-5 3 3 3-3 3 5 2 11-4-3-3 2-3-2-4 3Z"/></symbol>
+<symbol id="i-dragon" viewBox="0 0 24 24"><path d="M2 14c3-6 8-9 13-9 4 0 7 3 7 3l-4 1 3 3-5-1 1 4-4-3-2 4-2-4-3 2 1-4-5 1 3-3Z"/></symbol>
+<symbol id="i-axe" viewBox="0 0 24 24"><path d="M14 4c4 0 7 2 7 5s-3 4-6 3l-2-2 3-3-2-3Z"/><path d="M13 9 4 18l2 2 9-9"/></symbol>
+<symbol id="i-tower" viewBox="0 0 24 24"><path d="M7 22V10l-2-4h14l-2 4v12Z"/><path d="M5 6V2h2v2h2V2h2v2h2V2h2v2h2v2"/></symbol>
+<symbol id="i-wing" viewBox="0 0 24 24"><path d="M2 12c4-8 10-9 10-9s0 5-4 7c3 0 6-1 8-3 0 0 1 6-5 9-3 1.5-6 1-9-1Z"/></symbol>
+<symbol id="i-skull" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 3 1.5 5 3 6.5V20h2v-2h2v2h2v-2h2v2.5c1.5-1.5 3-3.5 3-6.5a8 8 0 0 0-8-8Z"/><circle cx="9" cy="10" r="1.4"/><circle cx="15" cy="10" r="1.4"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6Z"/></symbol>
+<symbol id="i-gem" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2 4 8l8 14 8-14Z"/></symbol>
+<symbol id="i-drumstick" viewBox="0 0 24 24" fill="currentColor" stroke="none"><ellipse cx="8.5" cy="8.3" rx="7.1" ry="5.6" transform="rotate(-22 8.5 8.3)"/><circle cx="12.9" cy="12.4" r="3.7"/><circle cx="15.7" cy="15.2" r="3"/><circle cx="18.2" cy="17.7" r="2.4"/><circle cx="20.3" cy="19.9" r="1.8"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C12 2 5 11.2 5 15.6 5 19.7 8.1 22 12 22s7-2.3 7-6.4C19 11.2 12 2 12 2Z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="5"/><rect x="11" y="0.5" width="2" height="4" rx="1"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(315 12 12)"/></symbol>
+<symbol id="i-snowflake" viewBox="0 0 24 24" fill="currentColor" stroke="none"><g transform="rotate(0 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(60 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(120 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(180 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(240 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(300 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><circle cx="12" cy="12" r="1.3"/></symbol>
+<symbol id="i-horse" viewBox="0 0 24 24"><path d="M16 3c2 0 3.5 1.3 4 3l1 3-2 1-1-2-1 1 1 4-1 6h-2l-.5-5-2 .5-.5 4.5H9l-.5-6L7 21H5l1-8c-2-.5-3-2-3-4l2-1c.3 1 1.2 2 2.5 2H9l1-3c.5-1.5 2-3 4-3Z"/><circle cx="16.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></symbol>
+</defs>
+</svg>
+
+<!-- ============ FUNDO DA PÁGINA (mundo por trás do painel) ============ -->
+<div class="page-bg" id="pageBg">
+  <img class="page-bg-img" src="bgpage.jpg" alt="">
+  <div class="page-bg-shade"></div>
+</div>
+
+<!-- ============ HUD (sempre visível, inclusive com o painel K aberto) ============ -->
+<div class="hud-root">
+
+  <div class="hud-testpanel">
+    <span class="hud-testpanel-label">Teste</span>
+    <button class="hud-test-btn" id="btnTestEat"><svg><use href="#i-drumstick"/></svg>Comer</button>
+    <button class="hud-test-btn" id="btnTestDrink"><svg><use href="#i-drop"/></svg>Beber</button>
+    <div class="hud-test-slider">
+      <div class="hud-test-slider-head"><svg class="hud-slider-icon cold"><use href="#i-snowflake"/></svg><span>Temperatura</span><svg class="hud-slider-icon hot"><use href="#i-sun"/></svg></div>
+      <input type="range" min="-50" max="50" value="0" id="sliderTemp">
+    </div>
+    <span class="hud-testpanel-label">Combate</span>
+    <button class="hud-test-btn danger" id="btnTestDamage"><svg><use href="#i-skull"/></svg>Tomar dano</button>
+    <button class="hud-test-btn" id="btnTestHeal"><svg><use href="#i-heart"/></svg>Curar</button>
+    <button class="hud-test-btn" id="btnTestMagic"><svg><use href="#i-gem"/></svg>Usar magia</button>
+    <button class="hud-test-btn" id="btnTestRun"><svg><use href="#i-bolt"/></svg>Correr</button>
+  </div>
+
+  <div class="hud-corner">
+    <div class="hud-plaque">
+      <!-- barras e bolinhas ficam ATRÁS da arte: a arte tem os vãos/círculos recortados
+           (transparentes) e a moldura opaca cobre qualquer imperfeição de borda -->
+      <div class="hp-lane health" style="--bar-color:#c94a3f;--bar-color-dark:#5c1f18">
+        <div class="hp-lane-empty"></div>
+        <div class="hp-fill" style="width:86%"></div>
+      </div>
+      <div class="hp-lane stamina" style="--bar-color:#7e9a4e;--bar-color-dark:#334020">
+        <div class="hp-lane-empty"></div>
+        <div class="hp-fill" style="width:64%"></div>
+      </div>
+      <div class="hp-lane magicka" style="--bar-color:#4f8fc4;--bar-color-dark:#1f374f">
+        <div class="hp-lane-empty"></div>
+        <div class="hp-fill" style="width:78%"></div>
+      </div>
+
+      <div class="hp-bead b1" data-vital="hunger" style="--vital-color:#d7a33c">
+        <div class="bead-empty"></div>
+        <div class="bead-fill" style="height:72%"></div>
+        <svg class="bead-icon"><use href="#i-drumstick"/></svg>
+      </div>
+      <div class="hp-bead b2" data-vital="thirst" style="--vital-color:#4fa8d8">
+        <div class="bead-empty"></div>
+        <div class="bead-fill" style="height:55%"></div>
+        <svg class="bead-icon"><use href="#i-drop"/></svg>
+      </div>
+      <div class="hp-bead b3" data-vital="temperature" style="--vital-color:#9aa3ad">
+        <div class="bead-empty"></div>
+        <div class="bead-fill" style="height:100%"></div>
+        <svg class="bead-icon" id="tempIcon"><use href="#i-sun"/></svg>
+      </div>
+
+      <img class="hud-plaque-bg" src="hudstatus2.png" alt="">
+
+      <!-- brilhos animados sobre os detalhes azuis da logo (olho do dragão + joias da moldura) -->
+      <div class="hud-glow eye"></div>
+      <div class="hud-glow gem g1"></div>
+      <div class="hud-glow gem g2"></div>
+      <div class="hud-glow gem g3"></div>
+      <div class="hud-glow gem g4"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ DICA PARA ABRIR ============ -->
+<div class="hint-key" id="hintKey">Pressione <span>K</span> para abrir o painel</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- ============ PAINEL PRINCIPAL ============ -->
+<div class="app" id="app" hidden>
+  <div class="panel">
+    <div class="panel-bg" id="panelBg">
+      <img class="panel-bg-img" src="background.jpg" alt="">
+      <div class="panel-bg-shade"></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img class="brand-logo" src="j6v5b72.png" alt="Skyrim Epiphany">
+        <p class="brand-sub">Painel do Reino</p>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item is-active" data-tab="personagem"><svg class="nav-icon"><use href="#i-user"/></svg><span>Personagem</span></button>
+        <button class="nav-item" data-tab="social"><svg class="nav-icon"><use href="#i-users"/></svg><span>Social</span></button>
+        <button class="nav-item" data-tab="cla"><svg class="nav-icon"><use href="#i-shield"/></svg><span>Clã</span></button>
+        <button class="nav-item" data-tab="faccoes"><svg class="nav-icon"><use href="#i-flag"/></svg><span>Facções</span></button>
+        <button class="nav-item" data-tab="jarl"><svg class="nav-icon"><use href="#i-landmark"/></svg><span>Painel do Jarl</span></button>
+        <button class="nav-item" data-tab="rei"><svg class="nav-icon"><use href="#i-crown"/></svg><span>Painel do Rei</span></button>
+        <button class="nav-item" data-tab="patrimonio"><svg class="nav-icon"><use href="#i-landmark"/></svg><span>Patrimônio</span></button>
+        <button class="nav-item" data-tab="estabulo"><svg class="nav-icon"><use href="#i-horse"/></svg><span>Estábulo</span></button>
+        <button class="nav-item" data-tab="conta"><svg class="nav-icon"><use href="#i-id"/></svg><span>Conta</span></button>
+        <button class="nav-item" data-tab="loja"><svg class="nav-icon"><use href="#i-bag"/></svg><span>Loja</span></button>
+        <button class="nav-item" data-tab="config"><svg class="nav-icon"><use href="#i-settings"/></svg><span>Configurações</span></button>
+        <button class="nav-item" data-tab="chat"><svg class="nav-icon"><use href="#i-chat"/></svg><span>Chat</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="presence"><span class="dot-online"></span>ONLINE</div>
+        <div class="who">
+          <strong>Barak Daluryan</strong>
+          <small>Realm 01 · Nível 23</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
+      <header class="content-head">
+        <h2 id="tabTitle">Personagem</h2>
+        <button class="close-btn" id="closeBtn"><svg class="i16"><use href="#i-x"/></svg>Fechar · ESC</button>
+      </header>
+
+      <div class="content-body">
+
+        <!-- ============ PERSONAGEM ============ -->
+        <section class="tab-pane is-active" data-pane="personagem">
+          <div class="subtabs">
+            <button class="subtab is-active" data-sub="status">Status</button>
+            <button class="subtab" data-sub="skills">Skills</button>
+            <button class="subtab" data-sub="prof">Profissões</button>
+          </div>
+
+          <div class="sub-pane is-active" data-subpane="status">
+            <div class="stat-grid">
+              <div class="stat-card accent"><svg class="i18"><use href="#i-coins"/></svg><div><span class="stat-num">365</span><small>Septims</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-star"/></svg><div><span class="stat-num">12</span><small>Fichas · Temporada III</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-shield"/></svg><div><span class="stat-num">23</span><small>Nível global</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-heart"/></svg><div><span class="stat-num">48.250</span><small>XP acumulado</small></div></div>
+            </div>
+
+            <div class="section-label">Combate</div>
+            <div class="stat-grid">
+              <div class="stat-card"><svg class="i18"><use href="#i-swords"/></svg><div><span class="stat-num">1.284</span><small>Criaturas derrotadas</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-skull"/></svg><div><span class="stat-num">7</span><small>Chefes derrotados</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-shield"/></svg><div><span class="stat-num">23</span><small>Contratos concluídos</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-heart"/></svg><div><span class="stat-num warn">8</span><small>Mortes</small></div></div>
+            </div>
+
+            <div class="section-label">Progressão</div>
+            <div class="stat-grid two">
+              <div class="card mini-card">
+                <small>Nível atual</small><span class="big">23</span>
+                <div class="bar sm"><i class="bar-fill fill-accent" style="width:48%"></i></div>
+                <small class="muted">XP p/ próximo: 51.750</small>
+              </div>
+              <div class="card mini-card"><small>Horas jogadas</small><span class="big">142h</span></div>
+            </div>
+          </div>
+
+          <div class="sub-pane" data-subpane="skills">
+            <div class="skills-grid">
+              <div class="skill-item"><span>Um Manuseio</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:72%"></i></div><em>72</em></div>
+              <div class="skill-item"><span>Bloqueio</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:58%"></i></div><em>58</em></div>
+              <div class="skill-item"><span>Destruição</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:64%"></i></div><em>64</em></div>
+              <div class="skill-item"><span>Restauração</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:41%"></i></div><em>41</em></div>
+              <div class="skill-item"><span>Furtividade</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:33%"></i></div><em>33</em></div>
+              <div class="skill-item"><span>Arqueria</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:80%"></i></div><em>80</em></div>
+            </div>
+          </div>
+
+          <div class="sub-pane" data-subpane="prof">
+            <div class="skills-grid">
+              <div class="skill-item"><span>Ferraria</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:66%"></i></div><em>66</em></div>
+              <div class="skill-item"><span>Alquimia</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:52%"></i></div><em>52</em></div>
+              <div class="skill-item"><span>Encantamento</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:29%"></i></div><em>29</em></div>
+              <div class="skill-item"><span>Culinária</span><div class="bar sm"><i class="bar-fill fill-accent" style="width:18%"></i></div><em>18</em></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SOCIAL (apenas grupo) ============ -->
+        <section class="tab-pane" data-pane="social">
+          <div class="card group-head">
+            <div class="group-head-left">
+              <svg class="i22"><use href="#i-users"/></svg>
+              <div>
+                <strong>Seu Grupo</strong>
+                <small>Aventurando com sua companhia</small>
+              </div>
+            </div>
+            <div class="group-head-actions">
+              <button class="btn btn-ghost" data-toast="Convite copiado para a área de transferência">Convidar</button>
+              <button class="btn btn-danger-ghost" data-toast="Você saiu do grupo">Sair do grupo</button>
+            </div>
+          </div>
+
+          <div class="stat-grid three">
+            <div class="card mini-card"><small>Integrantes</small><span class="big">4/5</span></div>
+            <div class="card mini-card"><small>Online</small><span class="big ok">3</span></div>
+            <div class="card mini-card"><small>Nível médio</small><span class="big">21</span></div>
+          </div>
+
+          <div class="section-label">Membros</div>
+          <div class="card list-card">
+            <div class="member-row">
+              <div class="avatar">B</div>
+              <div class="member-info"><strong>Barak Daluryan</strong><small class="tag-leader">Líder</small></div>
+              <span class="online-dot"></span>
+            </div>
+            <div class="member-row">
+              <div class="avatar">S</div>
+              <div class="member-info"><strong>Serana Noctis</strong><small>Integrante</small></div>
+              <span class="online-dot"></span>
+              <div class="row-actions">
+                <button class="btn-icon" data-toast="Liderança transferida">Liderança</button>
+                <button class="btn-icon danger" data-toast="Membro expulso do grupo">Expulsar</button>
+              </div>
+            </div>
+            <div class="member-row">
+              <div class="avatar">E</div>
+              <div class="member-info"><strong>Eryndor Val</strong><small>Integrante</small></div>
+              <span class="online-dot off"></span>
+              <div class="row-actions">
+                <button class="btn-icon" data-toast="Liderança transferida">Liderança</button>
+                <button class="btn-icon danger" data-toast="Membro expulso do grupo">Expulsar</button>
+              </div>
+            </div>
+            <div class="member-row">
+              <div class="avatar">L</div>
+              <div class="member-info"><strong>Lyra Ashbane</strong><small>Integrante</small></div>
+              <span class="online-dot"></span>
+              <div class="row-actions">
+                <button class="btn-icon" data-toast="Liderança transferida">Liderança</button>
+                <button class="btn-icon danger" data-toast="Membro expulso do grupo">Expulsar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-label">Compartilhamento de recompensas</div>
+          <div class="card row-between">
+            <div>
+              <strong>Distribuição de ouro</strong>
+              <small class="muted">Divisão igualitária entre membros online</small>
+            </div>
+            <button class="btn btn-ghost" data-toast="Regra de distribuição atualizada">Alterar</button>
+          </div>
+        </section>
+
+        <!-- ============ CLÃ ============ -->
+        <section class="tab-pane" data-pane="cla">
+
+          <!-- Estado: sem clã -> assistente de criação -->
+          <div id="claCriar">
+            <div class="card banner-empty">
+              <svg class="i28"><use href="#i-shield"/></svg>
+              <strong>Você ainda não pertence a um clã</strong>
+              <small class="muted">Funde seu próprio clã, escolha seu emblema e jure lealdade a uma coroa.</small>
+              <button class="btn btn-primary" id="btnAbrirWizard"><svg class="i16"><use href="#i-plus"/></svg>Fundar Clã</button>
+            </div>
+          </div>
+
+          <!-- Wizard -->
+          <div id="claWizard" class="wizard-overlay" hidden>
+            <div class="wizard-card">
+              <div class="wizard-steps">
+                <div class="wstep is-active" data-step="1"><span>1</span>Identidade</div>
+                <div class="wstep" data-step="2"><span>2</span>Emblema</div>
+                <div class="wstep" data-step="3"><span>3</span>Coroa</div>
+              </div>
+
+              <div class="wizard-body">
+                <!-- passo 1 -->
+                <div class="wpane is-active" data-wpane="1">
+                  <label class="field-label">Nome do clã</label>
+                  <input type="text" id="claNome" class="field-input" placeholder="Ex: Filhos do Inverno" maxlength="28" value="Corvos de Ferro">
+                  <label class="field-label">Lema (opcional)</label>
+                  <input type="text" id="claLema" class="field-input" placeholder="Ex: Sangue e honra" maxlength="40" value="Ferro forjado no gelo">
+                </div>
+
+                <!-- passo 2 -->
+                <div class="wpane" data-wpane="2">
+                  <label class="field-label">Emblema</label>
+                  <div class="icon-grid" id="iconGrid">
+                    <button class="icon-opt is-active" data-icon="i-shield"><svg><use href="#i-shield"/></svg></button>
+                    <button class="icon-opt" data-icon="i-wolf"><svg><use href="#i-wolf"/></svg></button>
+                    <button class="icon-opt" data-icon="i-dragon"><svg><use href="#i-dragon"/></svg></button>
+                    <button class="icon-opt" data-icon="i-axe"><svg><use href="#i-axe"/></svg></button>
+                    <button class="icon-opt" data-icon="i-tower"><svg><use href="#i-tower"/></svg></button>
+                    <button class="icon-opt" data-icon="i-wing"><svg><use href="#i-wing"/></svg></button>
+                    <button class="icon-opt" data-icon="i-star"><svg><use href="#i-star"/></svg></button>
+                    <button class="icon-opt" data-icon="i-skull"><svg><use href="#i-skull"/></svg></button>
+                  </div>
+
+                  <div class="color-row">
+                    <div class="color-field">
+                      <label class="field-label">Cor do emblema</label>
+                      <input type="color" id="corIcone" value="#8fe3ff">
+                    </div>
+                    <div class="color-field">
+                      <label class="field-label">Cor de fundo do estandarte</label>
+                      <input type="color" id="corFundo" value="#0c2b4a">
+                    </div>
+                  </div>
+
+                  <label class="field-label">Pré-visualização</label>
+                  <div class="banner-preview" id="bannerPreview">
+                    <svg class="preview-icon" id="previewIconSvg"><use href="#i-shield"/></svg>
+                  </div>
+                </div>
+
+                <!-- passo 3 -->
+                <div class="wpane" data-wpane="3">
+                  <label class="field-label">Jurar lealdade a uma coroa</label>
+                  <div class="crown-grid" id="crownGrid">
+                    <button class="crown-opt is-active" data-crown="aartiz">
+                      <svg class="crown-icon gold"><use href="#i-crown"/></svg>
+                      <strong>Coroa Aartiz</strong>
+                      <small>Disciplina e conquista</small>
+                    </button>
+                    <button class="crown-opt" data-crown="rebola">
+                      <svg class="crown-icon purple"><use href="#i-crown"/></svg>
+                      <strong>Rei que Rebola Lentinho</strong>
+                      <small>Caos e boa vibe</small>
+                    </button>
+                    <button class="crown-opt" data-crown="neutro">
+                      <svg class="crown-icon gray"><use href="#i-shield"/></svg>
+                      <strong>Independente</strong>
+                      <small>Nenhuma coroa · Neutro</small>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wizard-foot">
+                <button class="btn btn-ghost" id="wizPrev" hidden>Voltar</button>
+                <button class="btn btn-ghost" id="wizCancel">Cancelar</button>
+                <button class="btn btn-primary" id="wizNext">Avançar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Estado: com clã -->
+          <div id="claPainel" hidden>
+            <div class="card cla-head" id="claHeadCard">
+              <div class="cla-banner" id="claBannerMain">
+                <svg class="cla-banner-icon" id="claBannerIcon"><use href="#i-shield"/></svg>
+                <span class="cla-crown-seal" id="claCrownSeal"><svg><use href="#i-crown"/></svg></span>
+              </div>
+              <div class="cla-head-info">
+                <strong id="claNomeDisplay">Corvos de Ferro</strong>
+                <small id="claLemaDisplay">"Ferro forjado no gelo"</small>
+                <span class="pill" id="claCoroaDisplay">Jurado à Coroa Aartiz</span>
+              </div>
+              <button class="btn btn-ghost" id="btnEditarCla">Editar</button>
+            </div>
+
+            <div class="stat-grid four">
+              <div class="card mini-card"><small>Membros</small><span class="big">1</span></div>
+              <div class="card mini-card"><small>Online</small><span class="big ok">1</span></div>
+              <div class="card mini-card"><small>Conquistas</small><span class="big">0</span></div>
+              <div class="card mini-card"><small>Território</small><span class="big">0</span></div>
+            </div>
+
+            <div class="section-label">Oficiais do clã</div>
+            <div class="card list-card">
+              <div class="member-row">
+                <div class="avatar">B</div>
+                <div class="member-info"><strong>Barak Daluryan</strong><small class="tag-leader">Fundador · Você</small></div>
+                <span class="online-dot"></span>
+              </div>
+            </div>
+
+            <div class="section-label">Ações do clã</div>
+            <div class="card actions-row">
+              <button class="btn btn-ghost" data-toast="Abrindo lista de membros...">Ver todos os membros</button>
+              <button class="btn btn-ghost" data-toast="Abrindo diário do clã...">Diário do clã</button>
+              <button class="btn btn-danger-ghost" id="btnDeixarCla">Deixar o clã</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ FACÇÕES ============ -->
+        <section class="tab-pane" data-pane="faccoes">
+          <p class="muted intro-text">O reino de Skyrim Epiphany está dividido entre duas coroas em disputa e os clãs que permanecem neutros.</p>
+
+          <div class="faction-grid" id="factionGrid">
+            <div class="faction-card faction-aartiz" data-faction="aartiz">
+              <div class="faction-top">
+                <svg class="crown-icon gold i28"><use href="#i-crown"/></svg>
+                <div>
+                  <strong>Coroa Aartiz</strong>
+                  <small>Disciplina e conquista</small>
+                </div>
+              </div>
+              <div class="faction-stats">
+                <div><span class="big" data-count="aartiz-clans">3</span><small>Clãs</small></div>
+                <div><span class="big" data-count="aartiz-members">71</span><small>Membros</small></div>
+              </div>
+              <div class="bar"><i class="bar-fill fill-gold" style="width:46%"></i></div>
+              <button class="btn btn-ghost expand-btn" data-expand="aartiz">Ver clãs <svg class="i14"><use href="#i-chevron-down"/></svg></button>
+              <div class="faction-clan-list" data-list="aartiz">
+                <div class="clan-chip"><span class="chip-dot" style="background:#d8b34d"></span>Filhos do Inverno</div>
+                <div class="clan-chip"><span class="chip-dot" style="background:#7fa8c9"></span>Guarda de Ferro</div>
+                <div class="clan-chip"><span class="chip-dot" style="background:#b06a4a"></span>Legião Cinzenta</div>
+              </div>
+            </div>
+
+            <div class="faction-card faction-rebola" data-faction="rebola">
+              <div class="faction-top">
+                <svg class="crown-icon purple i28"><use href="#i-crown"/></svg>
+                <div>
+                  <strong>Rei que Rebola Lentinho</strong>
+                  <small>Caos e boa vibe</small>
+                </div>
+              </div>
+              <div class="faction-stats">
+                <div><span class="big" data-count="rebola-clans">2</span><small>Clãs</small></div>
+                <div><span class="big" data-count="rebola-members">44</span><small>Membros</small></div>
+              </div>
+              <div class="bar"><i class="bar-fill fill-purple" style="width:31%"></i></div>
+              <button class="btn btn-ghost expand-btn" data-expand="rebola">Ver clãs <svg class="i14"><use href="#i-chevron-down"/></svg></button>
+              <div class="faction-clan-list" data-list="rebola">
+                <div class="clan-chip"><span class="chip-dot" style="background:#c084fc"></span>Cambaleantes da Noite</div>
+                <div class="clan-chip"><span class="chip-dot" style="background:#f472b6"></span>Passo de Ganso</div>
+              </div>
+            </div>
+
+            <div class="faction-card faction-neutro" data-faction="neutro">
+              <div class="faction-top">
+                <svg class="crown-icon gray i28"><use href="#i-shield"/></svg>
+                <div>
+                  <strong>Neutros</strong>
+                  <small>Sem juramento a coroa alguma</small>
+                </div>
+              </div>
+              <div class="faction-stats">
+                <div><span class="big" data-count="neutro-clans">2</span><small>Clãs</small></div>
+                <div><span class="big" data-count="neutro-members">27</span><small>Membros</small></div>
+              </div>
+              <div class="bar"><i class="bar-fill fill-gray" style="width:23%"></i></div>
+              <button class="btn btn-ghost expand-btn" data-expand="neutro">Ver clãs <svg class="i14"><use href="#i-chevron-down"/></svg></button>
+              <div class="faction-clan-list" data-list="neutro">
+                <div class="clan-chip"><span class="chip-dot" style="background:#9ca3af"></span>Andarilhos de Estrada</div>
+                <div class="clan-chip"><span class="chip-dot" style="background:#94a3b8"></span>Mercadores Livres</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ PAINEL DO JARL ============ -->
+        <section class="tab-pane" data-pane="jarl">
+          <div class="card gov-head">
+            <div class="gov-head-icon"><svg class="i28"><use href="#i-landmark"/></svg></div>
+            <div class="gov-head-info">
+              <strong>Jarl de Whiterun</strong>
+              <small>Barak Daluryan · Investido em 14/03/2026</small>
+            </div>
+            <span class="pill">Território da Coroa Aartiz</span>
+          </div>
+
+          <div class="section-label">Nomear cargo na corte</div>
+          <div class="card appoint-row">
+            <select class="field-select" id="jarlCandidateSelect"></select>
+            <select class="field-select" id="jarlRoleSelect">
+              <option value="jarl-comandante">Comandante da Guarda</option>
+              <option value="jarl-guarda">Guarda</option>
+              <option value="jarl-mago">Mago do Jarl</option>
+              <option value="jarl-thane">Thane (Nobre) de Whiterun</option>
+            </select>
+            <button class="btn btn-primary" id="btnNomearJarl">Nomear</button>
+          </div>
+
+          <div class="section-label">Hierarquia da corte</div>
+          <div class="card gov-role-list">
+            <div class="gov-role" data-role-key="jarl-comandante">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-swords"/></svg><strong>Comandante da Guarda</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+            <div class="gov-role" data-role-key="jarl-guarda">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-shield"/></svg><strong>Guardas</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+            <div class="gov-role" data-role-key="jarl-mago">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-star"/></svg><strong>Magos do Jarl</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+          </div>
+
+          <div class="section-label">Thanes de Whiterun</div>
+          <div class="card gov-role-list">
+            <div class="gov-role" data-role-key="jarl-thane">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-crown"/></svg><strong>Nobres reconhecidos</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+          </div>
+
+          <div class="section-label">Imposto da província</div>
+          <div class="card row-between">
+            <div>
+              <strong>Taxa de imposto — Whiterun</strong>
+              <small class="muted">Percentual retido sobre contratos e transações realizadas na província</small>
+            </div>
+            <div class="setting-control">
+              <input type="range" min="0" max="30" value="8" id="rangeTaxJarl">
+              <span class="range-val" id="valTaxJarl">8%</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ PAINEL DO REI ============ -->
+        <section class="tab-pane" data-pane="rei">
+          <div class="card gov-head">
+            <div class="gov-head-icon gold"><svg class="i28"><use href="#i-crown"/></svg></div>
+            <div class="gov-head-info">
+              <strong>Rei da Coroa Aartiz</strong>
+              <small>Barak Daluryan · Coroado em 02/01/2026</small>
+            </div>
+            <span class="pill pill-vip">Soberano</span>
+          </div>
+
+          <div class="section-label">Jarls das províncias</div>
+          <div class="card list-card" id="provinceList">
+            <div class="province-row" data-province="Whiterun">
+              <div class="province-info"><strong>Whiterun</strong><small>Capital do reino</small></div>
+              <span class="role-chip-static">Barak Daluryan (Você)</span>
+            </div>
+            <div class="province-row" data-province="Windhelm">
+              <div class="province-info"><strong>Windhelm</strong><small>Sede da Legião do Leste</small></div>
+              <span class="role-chip-static">Ulfric Stormcaller</span>
+            </div>
+            <div class="province-row" data-province="Riften">
+              <div class="province-info"><strong>Riften</strong><small>Distrito comercial</small></div>
+              <span class="role-chip-static">Lyra Ashbane</span>
+            </div>
+            <div class="province-row" data-province="Solitude">
+              <div class="province-info"><strong>Solitude</strong><small>Sede da Legião Imperial</small></div>
+              <span class="role-chip-static">Serana Noctis</span>
+            </div>
+            <div class="province-row" data-province="Markarth">
+              <div class="province-info"><strong>Markarth</strong><small>Distrito de mineração</small></div>
+              <span class="role-chip-static">Vacância</span>
+            </div>
+            <div class="province-row" data-province="Falkreath">
+              <div class="province-info"><strong>Falkreath</strong><small>Fronteira sul</small></div>
+              <span class="role-chip-static">Gorimir Ironshield</span>
+            </div>
+          </div>
+          <div class="card appoint-row">
+            <select class="field-select" id="provinceSelect"></select>
+            <select class="field-select" id="provinceCandidateSelect"></select>
+            <button class="btn btn-primary" id="btnNomearJarlProvincia">Nomear Jarl</button>
+          </div>
+
+          <div class="section-label">Nomear cargo da coroa</div>
+          <div class="card appoint-row">
+            <select class="field-select" id="reiCandidateSelect"></select>
+            <select class="field-select" id="reiRoleSelect">
+              <option value="rei-comandante">Comandante da Guarda Real</option>
+              <option value="rei-guarda">Guarda Real</option>
+              <option value="rei-mago">Mago da Realeza</option>
+              <option value="rei-thane">Thane (Nobre) do Reino</option>
+            </select>
+            <button class="btn btn-primary" id="btnNomearRei">Nomear</button>
+          </div>
+
+          <div class="section-label">Hierarquia da coroa</div>
+          <div class="card gov-role-list">
+            <div class="gov-role" data-role-key="rei-comandante">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-swords"/></svg><strong>Comandante da Guarda Real</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+            <div class="gov-role" data-role-key="rei-guarda">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-shield"/></svg><strong>Guarda Real</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+            <div class="gov-role" data-role-key="rei-mago">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-star"/></svg><strong>Magos da Realeza</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+          </div>
+
+          <div class="section-label">Thanes do Reino</div>
+          <div class="card gov-role-list">
+            <div class="gov-role" data-role-key="rei-thane">
+              <div class="gov-role-head"><svg class="i18"><use href="#i-crown"/></svg><strong>Nobres reconhecidos pela coroa</strong></div>
+              <div class="gov-role-members"></div>
+            </div>
+          </div>
+
+          <div class="section-label">Imposto geral do reino</div>
+          <div class="card row-between">
+            <div>
+              <strong>Taxa da Coroa</strong>
+              <small class="muted">Percentual cobrado sobre todas as províncias, revertido ao tesouro real</small>
+            </div>
+            <div class="setting-control">
+              <input type="range" min="0" max="30" value="12" id="rangeTaxRei">
+              <span class="range-val" id="valTaxRei">12%</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ PATRIMÔNIO ============ -->
+        <section class="tab-pane" data-pane="patrimonio">
+          <div class="subtabs">
+            <button class="subtab is-active" data-sub2="visao">Visão Geral</button>
+            <button class="subtab" data-sub2="imoveis">Imóveis</button>
+            <button class="subtab" data-sub2="montarias">Montarias</button>
+            <button class="subtab" data-sub2="financas">Finanças</button>
+          </div>
+
+          <div class="sub-pane2 is-active" data-sub2pane="visao">
+            <div class="stat-grid">
+              <div class="stat-card accent"><svg class="i18"><use href="#i-coins"/></svg><div><span class="stat-num">9.140</span><small>Patrimônio total</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-landmark"/></svg><div><span class="stat-num">2</span><small>Imóveis</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-shield"/></svg><div><span class="stat-num">1</span><small>Montarias</small></div></div>
+              <div class="stat-card"><svg class="i18"><use href="#i-star"/></svg><div><span class="stat-num">18</span><small>Itens valiosos</small></div></div>
+            </div>
+
+            <div class="section-label">Distribuição do patrimônio</div>
+            <div class="card">
+              <div class="dist-row"><span>Imóveis</span><div class="bar"><i class="bar-fill fill-blue" style="width:52%"></i></div><em>4.700 sep</em></div>
+              <div class="dist-row"><span>Montarias</span><div class="bar"><i class="bar-fill fill-purple" style="width:15%"></i></div><em>1.350 sep</em></div>
+              <div class="dist-row"><span>Bens & colecionáveis</span><div class="bar"><i class="bar-fill fill-gold" style="width:19%"></i></div><em>1.740 sep</em></div>
+              <div class="dist-row"><span>Ouro líquido</span><div class="bar"><i class="bar-fill fill-green" style="width:14%"></i></div><em>1.350 sep</em></div>
+            </div>
+          </div>
+
+          <div class="sub-pane2" data-sub2pane="imoveis">
+            <div class="stat-grid three">
+              <div class="card mini-card"><small>Imóveis</small><span class="big">2</span></div>
+              <div class="card mini-card"><small>Valor total</small><span class="big">4.700 sep</span></div>
+              <div class="card mini-card"><small>Renda mensal</small><span class="big ok">+80 sep</span></div>
+            </div>
+
+            <div class="section-label">Propriedades registradas</div>
+            <div class="property-card">
+              <div class="property-thumb"><svg class="i28"><use href="#i-landmark"/></svg></div>
+              <div class="property-info">
+                <strong>Cabana do Pescador</strong>
+                <small>Lago Ilinalta · Falkreath</small>
+                <div class="tags"><span class="pill">Residência</span><span class="pill pill-ok">Ocupada</span></div>
+              </div>
+              <div class="property-value">
+                <small>Valor de mercado</small>
+                <strong>1.200 sep</strong>
+              </div>
+              <div class="property-actions">
+                <button class="btn btn-ghost" data-toast="Abrindo detalhes...">Detalhes</button>
+                <button class="btn btn-ghost" data-toast="Abrindo gerenciamento...">Gerenciar</button>
+              </div>
+            </div>
+            <div class="property-card">
+              <div class="property-thumb"><svg class="i28"><use href="#i-bag"/></svg></div>
+              <div class="property-info">
+                <strong>Depósito em Whiterun</strong>
+                <small>Distrito do Mercado · Whiterun</small>
+                <div class="tags"><span class="pill">Comercial</span><span class="pill pill-warn">Alugada</span></div>
+              </div>
+              <div class="property-value">
+                <small>Valor de mercado</small>
+                <strong>3.500 sep</strong>
+                <small class="ok">+80 sep/mês</small>
+              </div>
+              <div class="property-actions">
+                <button class="btn btn-ghost" data-toast="Abrindo detalhes...">Detalhes</button>
+                <button class="btn btn-ghost" data-toast="Abrindo gerenciamento...">Gerenciar</button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary full" data-toast="Abrindo catálogo de imóveis..."><svg class="i16"><use href="#i-plus"/></svg>Adquirir propriedade</button>
+          </div>
+
+          <div class="sub-pane2" data-sub2pane="montarias">
+            <div class="property-card">
+              <div class="property-thumb"><svg class="i28"><use href="#i-swords"/></svg></div>
+              <div class="property-info">
+                <strong>Sombra-da-Nevasca</strong>
+                <small>Cavalo Nórdico · Estábulo de Whiterun</small>
+                <div class="tags"><span class="pill">Ativo</span></div>
+              </div>
+              <div class="property-value">
+                <small>Valor estimado</small>
+                <strong>1.350 sep</strong>
+              </div>
+              <div class="property-actions">
+                <button class="btn btn-ghost" data-toast="Sombra-da-Nevasca convocado">Convocar</button>
+              </div>
+            </div>
+            <button class="btn btn-primary full" data-toast="Abrindo loja de cavalos..."><svg class="i16"><use href="#i-plus"/></svg>Adquirir montaria</button>
+          </div>
+
+          <div class="sub-pane2" data-sub2pane="financas">
+            <div class="stat-grid three">
+              <div class="card mini-card"><small>Receita (mês)</small><span class="big ok">+960 sep</span></div>
+              <div class="card mini-card"><small>Despesas (mês)</small><span class="big warn">-310 sep</span></div>
+              <div class="card mini-card"><small>Saldo</small><span class="big">+650 sep</span></div>
+            </div>
+            <div class="section-label">Extrato recente</div>
+            <div class="card list-card">
+              <div class="tx-row"><span class="tx-dot ok"></span><div><strong>Aluguel · Depósito Whiterun</strong><small>Ontem, 19:20</small></div><em class="ok">+80 sep</em></div>
+              <div class="tx-row"><span class="tx-dot warn"></span><div><strong>Manutenção de estábulo</strong><small>2 dias atrás</small></div><em class="warn">-45 sep</em></div>
+              <div class="tx-row"><span class="tx-dot ok"></span><div><strong>Contrato concluído</strong><small>3 dias atrás</small></div><em class="ok">+350 sep</em></div>
+              <div class="tx-row"><span class="tx-dot warn"></span><div><strong>Reparo de equipamento</strong><small>5 dias atrás</small></div><em class="warn">-120 sep</em></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ ESTÁBULO ============ -->
+        <section class="tab-pane" data-pane="estabulo">
+          <div class="card horse-head">
+            <div class="horse-thumb"><svg class="i28"><use href="#i-horse"/></svg></div>
+            <div class="horse-info">
+              <strong>Sombra-da-Nevasca</strong>
+              <small>Cavalo Nórdico · Nível 4 · Estábulo de Whiterun</small>
+            </div>
+            <button class="btn btn-primary" data-toast="Sombra-da-Nevasca foi convocado!">Chamar cavalo</button>
+          </div>
+
+          <div class="stat-grid four">
+            <div class="stat-card"><svg class="i18"><use href="#i-heart"/></svg><div><span class="stat-num">92%</span><small>Saúde</small></div></div>
+            <div class="stat-card"><svg class="i18"><use href="#i-star"/></svg><div><span class="stat-num">70%</span><small>Estamina</small></div></div>
+            <div class="stat-card"><svg class="i18"><use href="#i-swords"/></svg><div><span class="stat-num">85%</span><small>Fidelidade</small></div></div>
+            <div class="stat-card"><svg class="i18"><use href="#i-coins"/></svg><div><span class="stat-num">1.350</span><small>Valor estimado</small></div></div>
+          </div>
+
+          <div class="section-label">Saúde e vitalidade</div>
+          <div class="card bars-card">
+            <div class="bar-row"><span>Saúde</span><div class="bar"><i class="bar-fill fill-red" style="width:92%"></i></div><em>92/100</em></div>
+            <div class="bar-row"><span>Estamina</span><div class="bar"><i class="bar-fill fill-green" style="width:70%"></i></div><em>70/100</em></div>
+            <div class="bar-row"><span>Fidelidade</span><div class="bar"><i class="bar-fill fill-accent" style="width:85%"></i></div><em>85/100</em></div>
+          </div>
+
+          <div class="section-label">Equipamentos</div>
+          <div class="property-card">
+            <div class="property-thumb"><svg class="i28"><use href="#i-shield"/></svg></div>
+            <div class="property-info">
+              <strong>Sela de Couro Reforçado</strong>
+              <small>Sela · +10% de estabilidade</small>
+              <div class="tags"><span class="pill pill-ok">Equipada</span></div>
+            </div>
+            <div class="property-actions"><button class="btn btn-ghost" data-toast="Abrindo troca de sela...">Trocar</button></div>
+          </div>
+          <div class="property-card">
+            <div class="property-thumb"><svg class="i28"><use href="#i-swords"/></svg></div>
+            <div class="property-info">
+              <strong>Barda de Ferro</strong>
+              <small>Armadura · +8 de defesa</small>
+              <div class="tags"><span class="pill pill-ok">Equipada</span></div>
+            </div>
+            <div class="property-actions"><button class="btn btn-ghost" data-toast="Abrindo troca de barda...">Trocar</button></div>
+          </div>
+          <div class="property-card">
+            <div class="property-thumb"><svg class="i28"><use href="#i-bag"/></svg></div>
+            <div class="property-info">
+              <strong>Nenhum alforje equipado</strong>
+              <small>Alforje · +20 de capacidade de carga</small>
+              <div class="tags"><span class="pill pill-warn">Vazio</span></div>
+            </div>
+            <div class="property-actions"><button class="btn btn-ghost" data-toast="Abrindo loja de alforjes...">Equipar</button></div>
+          </div>
+
+          <div class="section-label">Cosméticos</div>
+          <div class="shop-grid">
+            <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-star"/></svg></div><strong>Tintura Gélida</strong><small>Crina e cauda</small><button class="btn btn-primary full" disabled>Equipado</button></div>
+            <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-star"/></svg></div><strong>Manto de Gala</strong><small>Cobertura ornamental</small><button class="btn btn-ghost full" data-toast="Manto de Gala equipado">Equipar</button></div>
+            <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-star"/></svg></div><strong>Ferraduras Rúnicas</strong><small>Efeito de passos</small><button class="btn btn-ghost full" data-toast="Ferraduras Rúnicas equipadas">Equipar</button></div>
+          </div>
+
+          <div class="section-label">Atalho de convocação</div>
+          <div class="card row-between">
+            <div>
+              <strong>Tecla para chamar a montaria</strong>
+              <small class="muted">Pressione em qualquer lugar do mundo para convocar seu cavalo atual</small>
+            </div>
+            <button class="hotkey-btn" id="hotkeyHorse" data-current="H">H</button>
+          </div>
+        </section>
+
+        <!-- ============ CONTA ============ -->
+        <section class="tab-pane" data-pane="conta">
+          <div class="card vip-card">
+            <div class="vip-left">
+              <svg class="i28"><use href="#i-star"/></svg>
+              <div>
+                <strong>Guardião de Skyrim</strong>
+                <small>Plano VIP ativo · renova em 15/10/2026</small>
+              </div>
+            </div>
+            <span class="pill pill-vip">VIP ATIVO</span>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-card"><svg class="i18"><use href="#i-user"/></svg><div><span class="stat-num">Nórdico</span><small>Raça</small></div></div>
+            <div class="stat-card"><svg class="i18"><use href="#i-book"/></svg><div><span class="stat-num">14/03/2026</span><small>Criado em</small></div></div>
+            <div class="stat-card"><svg class="i18"><use href="#i-shield"/></svg><div><span class="stat-num">Thane</span><small>Título atual</small></div></div>
+            <div class="stat-card"><svg class="i18"><use href="#i-flag"/></svg><div><span class="stat-num">Coroa Aartiz</span><small>Facção</small></div></div>
+          </div>
+
+          <div class="section-label">Lore do personagem</div>
+          <div class="card lore-card">
+            <p>Nascido nas planícies geladas ao norte de Windhelm, Barak Daluryan deixou sua vila natal após um ataque de forsworn dizimar sua família. Encontrou nos Corvos de Ferro um novo lar e jurou lealdade à Coroa Aartiz na esperança de reconstruir o que restou de sua linhagem.</p>
+          </div>
+
+          <div class="section-label">Detalhes da conta</div>
+          <div class="card list-card">
+            <div class="detail-row"><span>Data de registro</span><strong>02/01/2026</strong></div>
+            <div class="detail-row"><span>Último acesso</span><strong>Hoje, 21:12</strong></div>
+            <div class="detail-row"><span>Horas jogadas</span><strong>142h</strong></div>
+            <div class="detail-row"><span>Reputação</span><strong class="ok">Respeitado</strong></div>
+          </div>
+        </section>
+
+        <!-- ============ LOJA ============ -->
+        <section class="tab-pane" data-pane="loja">
+          <div class="subtabs wrap">
+            <button class="subtab" data-sub3="passe">Passe de Batalha</button>
+            <button class="subtab is-active" data-sub3="planos">Planos</button>
+            <button class="subtab" data-sub3="cavalos">Cavalos</button>
+            <button class="subtab" data-sub3="itens">Itens</button>
+            <button class="subtab" data-sub3="boosts">Boosts</button>
+            <button class="subtab" data-sub3="cosmeticos">Cosméticos</button>
+            <button class="subtab" data-sub3="titulos">Títulos</button>
+          </div>
+
+          <div class="sub-pane3" data-sub3pane="passe">
+            <div class="card battlepass-head">
+              <div>
+                <strong>Passe de Batalha · Temporada III</strong>
+                <small class="muted">Complete desafios diários e semanais para subir de nível e desbloquear recompensas.</small>
+              </div>
+              <span class="pill pill-vip">PREMIUM ATIVO</span>
+            </div>
+
+            <div class="card">
+              <div class="bp-progress-head"><span>Nível 12</span><span>2.450 / 4.000 XP para o próximo nível</span></div>
+              <div class="bar"><i class="bar-fill fill-accent" style="width:61%"></i></div>
+            </div>
+
+            <div class="section-label">Trilha de recompensas</div>
+            <div class="bp-track">
+              <div class="bp-tier is-unlocked">
+                <span class="bp-tier-num">10</span>
+                <div class="bp-reward free"><svg class="i18"><use href="#i-coins"/></svg><small>200 sep</small></div>
+                <div class="bp-reward premium is-unlocked"><svg class="i18"><use href="#i-star"/></svg><small>Skin de Arco</small></div>
+              </div>
+              <div class="bp-tier is-unlocked">
+                <span class="bp-tier-num">11</span>
+                <div class="bp-reward free"><svg class="i18"><use href="#i-book"/></svg><small>Poção XP</small></div>
+                <div class="bp-reward premium is-unlocked"><svg class="i18"><use href="#i-coins"/></svg><small>400 sep</small></div>
+              </div>
+              <div class="bp-tier is-current">
+                <span class="bp-tier-num">12</span>
+                <div class="bp-reward free"><svg class="i18"><use href="#i-coins"/></svg><small>250 sep</small></div>
+                <div class="bp-reward premium is-unlocked"><svg class="i18"><use href="#i-crown"/></svg><small>Título "Andarilho"</small></div>
+              </div>
+              <div class="bp-tier">
+                <span class="bp-tier-num">13</span>
+                <div class="bp-reward free"><svg class="i18"><use href="#i-book"/></svg><small>Poção XP</small></div>
+                <div class="bp-reward premium"><svg class="i18"><use href="#i-lock"/></svg><small>Bloqueado</small></div>
+              </div>
+              <div class="bp-tier">
+                <span class="bp-tier-num">14</span>
+                <div class="bp-reward free"><svg class="i18"><use href="#i-coins"/></svg><small>300 sep</small></div>
+                <div class="bp-reward premium"><svg class="i18"><use href="#i-lock"/></svg><small>Bloqueado</small></div>
+              </div>
+              <div class="bp-tier">
+                <span class="bp-tier-num">15</span>
+                <div class="bp-reward free"><svg class="i18"><use href="#i-star"/></svg><small>Emblema</small></div>
+                <div class="bp-reward premium"><svg class="i18"><use href="#i-lock"/></svg><small>Skin de Montaria</small></div>
+              </div>
+            </div>
+
+            <button class="btn btn-ghost full" disabled>Passe Premium já ativo nesta temporada</button>
+          </div>
+
+          <div class="sub-pane3 is-active" data-sub3pane="planos">
+            <div class="plans-grid">
+              <div class="plan-card">
+                <strong>Patrono do Reino</strong>
+                <span class="plan-price">R$34,90<small>/mês</small></span>
+                <ul>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Tag [Iniciado] no chat</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Canal de Patronos</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Bônus de XP +10%</li>
+                </ul>
+                <button class="btn btn-ghost full" data-toast="Assinatura simulada: Patrono do Reino">Contratar</button>
+              </div>
+              <div class="plan-card is-popular is-active">
+                <span class="badge-pop">Ativo</span>
+                <strong>Guardião de Skyrim</strong>
+                <span class="plan-price">R$44,90<small>/mês</small></span>
+                <ul>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Tudo do Patrono</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Tag [Veterano] dourada</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Bônus de XP +20%</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Título especial in-game</li>
+                </ul>
+                <button class="btn btn-primary full" disabled>Plano atual</button>
+              </div>
+              <div class="plan-card">
+                <strong>Senhor das Terras Geladas</strong>
+                <span class="plan-price">R$69,90<small>/mês</small></span>
+                <ul>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Tudo do Veterano</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Bônus de XP +35%</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Residência VIP in-game</li>
+                  <li><svg class="i14"><use href="#i-check"/></svg>Acesso antecipado</li>
+                </ul>
+                <button class="btn btn-ghost full" data-toast="Assinatura simulada: Senhor das Terras Geladas">Contratar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-pane3" data-sub3pane="cavalos">
+            <div class="shop-grid">
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-swords"/></svg></div><strong>Fantasma da Estepe</strong><small>Cavalo Élfico · veloz</small><span class="price">1.800 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Fantasma da Estepe">Comprar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-swords"/></svg></div><strong>Crina Negra</strong><small>Cavalo de Guerra</small><span class="price">2.400 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Crina Negra">Comprar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-swords"/></svg></div><strong>Bruma do Vale</strong><small>Cavalo Nórdico</small><span class="price">1.350 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Bruma do Vale">Comprar</button></div>
+            </div>
+          </div>
+
+          <div class="sub-pane3" data-sub3pane="itens">
+            <div class="shop-grid">
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-swords"/></svg></div><strong>Espada de Aço Élfico</strong><small>Arma · Uma mão</small><span class="price">620 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Espada de Aço Élfico">Comprar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-shield"/></svg></div><strong>Escudo Rúnico</strong><small>Escudo · Encantado</small><span class="price">480 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Escudo Rúnico">Comprar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-book"/></svg></div><strong>Tomo de Cura Maior</strong><small>Grimório</small><span class="price">340 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Tomo de Cura Maior">Comprar</button></div>
+            </div>
+          </div>
+
+          <div class="sub-pane3" data-sub3pane="boosts">
+            <div class="shop-grid">
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-swords"/></svg></div><strong>Boost de XP de Combate</strong><small>+50% por 24h</small><span class="price">250 sep</span><button class="btn btn-ghost full" data-toast="Boost ativado: XP de Combate">Ativar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-settings"/></svg></div><strong>Boost de Profissão</strong><small>+50% por 24h</small><span class="price">220 sep</span><button class="btn btn-ghost full" data-toast="Boost ativado: Profissão">Ativar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-coins"/></svg></div><strong>Boost de Ouro</strong><small>+25% por 24h</small><span class="price">300 sep</span><button class="btn btn-ghost full" data-toast="Boost ativado: Ouro">Ativar</button></div>
+            </div>
+          </div>
+
+          <div class="sub-pane3" data-sub3pane="cosmeticos">
+            <div class="shop-grid">
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-star"/></svg></div><strong>Armadura Espectral</strong><small>Skin de armadura</small><span class="price">1.100 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Armadura Espectral">Comprar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-star"/></svg></div><strong>Efeito Gélido de Passos</strong><small>Cosmético de movimento</small><span class="price">450 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: Efeito Gélido">Comprar</button></div>
+            </div>
+          </div>
+
+          <div class="sub-pane3" data-sub3pane="titulos">
+            <div class="shop-grid">
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-crown"/></svg></div><strong>"O Inabalável"</strong><small>Título exibido no chat</small><span class="price">500 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: título O Inabalável">Comprar</button></div>
+              <div class="shop-item"><div class="shop-thumb"><svg class="i28"><use href="#i-crown"/></svg></div><strong>"Andarilho das Brumas"</strong><small>Título exibido no chat</small><span class="price">500 sep</span><button class="btn btn-ghost full" data-toast="Compra simulada: título Andarilho das Brumas">Comprar</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ CONFIGURAÇÕES ============ -->
+        <section class="tab-pane" data-pane="config">
+          <div class="section-label">Áudio</div>
+          <div class="card settings-card">
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-mic"/></svg><div><strong>Volume do microfone</strong><small>Sensibilidade de captura da sua voz</small></div></div>
+              <div class="setting-control">
+                <input type="range" min="0" max="100" value="80" id="rangeMic">
+                <span class="range-val" id="valMic">80%</span>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-volume"/></svg><div><strong>Volume de voz dos jogadores</strong><small>Volume global do chat de voz próximo</small></div></div>
+              <div class="setting-control">
+                <input type="range" min="0" max="100" value="65" id="rangeVoz">
+                <span class="range-val" id="valVoz">65%</span>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-monitor"/></svg><div><strong>Dispositivo de entrada</strong><small>Microfone utilizado</small></div></div>
+              <div class="setting-control">
+                <select class="field-select" id="selEntrada">
+                  <option>Microfone Padrão do Sistema</option>
+                  <option>Headset USB — HyperX QuadCast</option>
+                  <option>Microfone de Lapela — Rode Wireless</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-monitor"/></svg><div><strong>Dispositivo de saída</strong><small>Fones ou alto-falantes</small></div></div>
+              <div class="setting-control">
+                <select class="field-select" id="selSaida">
+                  <option>Alto-falantes Padrão do Sistema</option>
+                  <option>Fone de Ouvido — HyperX Cloud II</option>
+                  <option>Monitor de Áudio — Realtek HD</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-mic"/></svg><div><strong>Modo de transmissão</strong><small>Como sua voz é enviada aos outros jogadores</small></div></div>
+              <div class="setting-control">
+                <div class="segmented">
+                  <button class="seg-opt is-active" data-seg="ptt">Push-to-talk</button>
+                  <button class="seg-opt" data-seg="voice">Ativado por voz</button>
+                </div>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-mic"/></svg><div><strong>Tecla de Push-to-Talk</strong><small>Tecla segurada para falar no chat de voz (padrão: V)</small></div></div>
+              <div class="setting-control">
+                <button class="hotkey-btn" id="hotkeyPtt" data-current="V">V</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-label">Interface</div>
+          <div class="card settings-card">
+            <div class="setting-row">
+              <div class="setting-label"><svg class="i18"><use href="#i-monitor"/></svg><div><strong>Transparência do menu</strong><small>Deixa o fundo da NUI mais translúcido (máx. 80%)</small></div></div>
+              <div class="setting-control">
+                <input type="range" min="0" max="80" value="0" id="rangeTransp">
+                <span class="range-val" id="valTransp">0%</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ CHAT ============ -->
+        <section class="tab-pane" data-pane="chat">
+          <div class="chat-wrap">
+            <div class="subtabs">
+              <button class="subtab is-active" data-sub4="global">Global</button>
+              <button class="subtab" data-sub4="privado">Privado</button>
+            </div>
+            <div class="chat-meta">47 jogadores online · Realm 01</div>
+
+            <div class="chat-body" id="chatGlobal">
+              <div class="msg"><div class="avatar sm">U</div><div class="msg-body"><div class="msg-head"><strong>Ulfric Stormcaller</strong><time>21:40</time></div><p>Alguém quer fazer a masmorra de Helgen hoje à noite?</p></div></div>
+              <div class="msg"><div class="avatar sm">L</div><div class="msg-body"><div class="msg-head"><strong>Lyra Ashbane</strong><time>21:41</time></div><p>Eu topo! Que horas?</p></div></div>
+              <div class="msg"><div class="avatar sm">G</div><div class="msg-body"><div class="msg-head"><strong>Gorimir Ironshield</strong><time>21:41</time></div><p>20h seria bom. Tenho que terminar o contrato antes.</p></div></div>
+              <div class="msg"><div class="avatar sm">S</div><div class="msg-body"><div class="msg-head"><strong>Serana Noctis</strong><time>21:42</time></div><p>Pode contar comigo. Levo minha build de magia.</p></div></div>
+              <div class="msg"><div class="avatar sm">S</div><div class="msg-body"><div class="msg-head"><strong>Serana Noctis</strong><time>21:43</time></div><p>Também vou! Me esperem na entrada.</p></div></div>
+              <div class="msg"><div class="avatar sm">U</div><div class="msg-body"><div class="msg-head"><strong>Ulfric Stormcaller</strong><time>21:43</time></div><p>Fechado! 20h na entrada de Helgen. Não se atrasem.</p></div></div>
+              <div class="msg"><div class="avatar sm">E</div><div class="msg-body"><div class="msg-head"><strong>Eryndor Val</strong><time>21:45</time></div><p>Alguém tem poção de estamina extra? Perdi as minhas.</p></div></div>
+              <div class="msg"><div class="avatar sm">L</div><div class="msg-body"><div class="msg-head"><strong>Lyra Ashbane</strong><time>21:46</time></div><p>Tenho umas 10 sobrando. Posso levar.</p></div></div>
+            </div>
+
+            <div class="chat-private-wrap" id="chatPrivadoWrap" hidden>
+              <div class="chat-private-main">
+                <div class="dm-head">
+                  <div class="avatar sm" id="dmActiveAvatar">S</div>
+                  <div>
+                    <strong id="dmActiveName">Serana Noctis</strong>
+                    <small id="dmActiveStatus" class="ok">Online</small>
+                  </div>
+                </div>
+                <div class="chat-body" id="chatPrivado"></div>
+              </div>
+
+              <div class="chat-contacts">
+                <div class="contacts-title">Conversas</div>
+                <div class="contacts-list" id="contactsList">
+                  <button class="contact-item is-active" data-contact="serana">
+                    <div class="avatar sm">S</div>
+                    <div class="contact-info"><strong>Serana Noctis</strong><small>Verdade, bora resolver amanhã cedo.</small></div>
+                    <span class="online-dot"></span>
+                  </button>
+                  <button class="contact-item" data-contact="ulfric">
+                    <div class="avatar sm">U</div>
+                    <div class="contact-info"><strong>Ulfric Stormcaller</strong><small>20h na entrada de Helgen.</small></div>
+                    <span class="online-dot"></span>
+                  </button>
+                  <button class="contact-item" data-contact="gorimir">
+                    <div class="avatar sm">G</div>
+                    <div class="contact-info"><strong>Gorimir Ironshield</strong><small>Fechei a encomenda de ferro.</small></div>
+                    <span class="unread-badge">2</span>
+                  </button>
+                  <button class="contact-item" data-contact="lyra">
+                    <div class="avatar sm">L</div>
+                    <div class="contact-info"><strong>Lyra Ashbane</strong><small>Tenho umas 10 sobrando.</small></div>
+                    <span class="online-dot off"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-input">
+              <input type="text" id="chatInput" placeholder="Escreva uma mensagem...">
+              <button class="btn btn-primary" id="chatSend"><svg class="i16"><use href="#i-send"/></svg>Enviar</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
