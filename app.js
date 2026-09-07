@@ -25,14 +25,18 @@
   // Para demonstração, ambas ficam ligadas para os botões aparecerem.
   const playerIsVampire = true;
   const playerIsWerewolf = true;
+  const playerIsSkeleton = true;
 
   /* ================= MENU RADIAL (tecla E) ================= */
   const radialMenu = document.getElementById('radialMenu');
   const radialVampire = document.getElementById('radialVampire');
   const radialWerewolf = document.getElementById('radialWerewolf');
+  const radialSkeleton = document.getElementById('radialSkeleton');
+  const ALL_RADIALS = [radialMenu, radialVampire, radialWerewolf, radialSkeleton];
 
   document.getElementById('btnRadialVampire').hidden = !playerIsVampire;
   document.getElementById('btnRadialWerewolf').hidden = !playerIsWerewolf;
+  document.getElementById('btnRadialSkeleton').hidden = !playerIsSkeleton;
 
   function setupRadial(overlay){
     const hubTitle = overlay.querySelector('.radial-hub-title');
@@ -42,7 +46,7 @@
 
     function open(){
       if (!app.hidden) return; // não abre com o menu K aberto
-      [radialMenu, radialVampire, radialWerewolf].forEach(o=>{ if (o !== overlay) o.hidden = true; });
+      ALL_RADIALS.forEach(o=>{ if (o !== overlay) o.hidden = true; });
       overlay.hidden = false;
     }
     function close(){
@@ -70,14 +74,16 @@
   const mainRadial = setupRadial(radialMenu);
   const vampireRadial = setupRadial(radialVampire);
   const werewolfRadial = setupRadial(radialWerewolf);
+  const skeletonRadial = setupRadial(radialSkeleton);
 
   function anyRadialOpen(){
-    return !radialMenu.hidden || !radialVampire.hidden || !radialWerewolf.hidden;
+    return ALL_RADIALS.some(o => !o.hidden);
   }
   function closeAnyOpenRadial(){
     if (!radialMenu.hidden) mainRadial.close();
     if (!radialVampire.hidden) vampireRadial.close();
     if (!radialWerewolf.hidden) werewolfRadial.close();
+    if (!radialSkeleton.hidden) skeletonRadial.close();
   }
   function toggleRadial(){
     anyRadialOpen() ? closeAnyOpenRadial() : mainRadial.open();
@@ -91,12 +97,20 @@
     mainRadial.close();
     werewolfRadial.open();
   });
+  document.getElementById('btnRadialSkeleton').addEventListener('click', ()=>{
+    mainRadial.close();
+    skeletonRadial.open();
+  });
   document.getElementById('btnBackFromVampire').addEventListener('click', ()=>{
     vampireRadial.close();
     mainRadial.open();
   });
   document.getElementById('btnBackFromWerewolf').addEventListener('click', ()=>{
     werewolfRadial.close();
+    mainRadial.open();
+  });
+  document.getElementById('btnBackFromSkeleton').addEventListener('click', ()=>{
+    skeletonRadial.close();
     mainRadial.open();
   });
 
@@ -109,10 +123,12 @@
     let variant = '';
     if (petal.closest('.theme-vampire') || petal.classList.contains('vampire') || petal.classList.contains('danger')) variant = ' danger';
     else if (petal.closest('.theme-werewolf') || petal.classList.contains('werewolf')) variant = ' werewolf';
+    else if (petal.closest('.theme-skeleton') || petal.classList.contains('skeleton')) variant = ' skeleton';
 
     // botões especiais flutuam soltos do círculo — a runa precisa flutuar junto
     if (petal.classList.contains('vampire')) variant += ' float-vamp';
     else if (petal.classList.contains('werewolf')) variant += ' float-were';
+    else if (petal.classList.contains('skeleton')) variant += ' float-skel';
 
     const ring = document.createElement('div');
     ring.className = 'rune-ring' + variant;

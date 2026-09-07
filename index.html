@@ -1182,6 +1182,10 @@
     <button class="radial-petal special werewolf" id="btnRadialWerewolf" data-label="Licantropia" style="left:241.6px; top:10px;">
       <svg class="i22"><use href="#i-moon"/></svg>
     </button>
+    <button class="radial-petal special skeleton" id="btnRadialSkeleton" data-label="Esqueleto" style="left:-16.9px; top:191px;">
+      <span class="bone-shard b1"></span><span class="bone-shard b2"></span>
+      <svg class="i22"><use href="#i-skull"/></svg>
+    </button>
 
     <div class="radial-hint">Pressione <span>E</span> para fechar</div>
   </div>
@@ -1201,11 +1205,17 @@
     <button class="radial-petal" data-label="Vampiro Sangue-Puro Real" style="left:130px; top:35px;" data-toast="Transformação: Vampiro Sangue-Puro Real">
       <svg class="i22"><use href="#i-crown"/></svg>
     </button>
-    <button class="radial-petal" data-label="Vampiro Puro" style="left:212.3px; top:177.5px;" data-toast="Transformação: Vampiro Puro">
+    <button class="radial-petal" data-label="Vampiro Puro" style="left:220.3px; top:100.6px;" data-toast="Transformação: Vampiro Puro">
       <svg class="i22"><use href="#i-drop"/></svg>
     </button>
-    <button class="radial-petal" data-label="Vampiro Misto" style="left:47.7px; top:177.5px;" data-toast="Transformação: Vampiro Misto">
+    <button class="radial-petal" data-label="Vampiro Misto" style="left:185.9px; top:206.9px;" data-toast="Transformação: Vampiro Misto">
       <svg class="i22"><use href="#i-gem"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Pedir para Beber Sangue" style="left:74.1px; top:206.9px;" data-toast="Pedido de sangue enviado">
+      <svg class="i22"><use href="#i-heart"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Beber Sangue à Força" style="left:39.7px; top:100.6px;" data-toast="Sangue tomado à força">
+      <svg class="i22"><use href="#i-swords"/></svg>
     </button>
 
     <button class="radial-back-btn" id="btnBackFromVampire"><svg class="i14 back-arrow"><use href="#i-chevron-right"/></svg>Voltar ao menu principal</button>
@@ -1227,14 +1237,49 @@
     <button class="radial-petal" data-label="Criar Alpha" style="left:130px; top:35px;" data-toast="Hierarquia definida: Alpha">
       <svg class="i22"><use href="#i-crown"/></svg>
     </button>
-    <button class="radial-petal" data-label="Criar Beta" style="left:212.3px; top:177.5px;" data-toast="Hierarquia definida: Beta">
+    <button class="radial-petal" data-label="Criar Beta" style="left:225px; top:130px;" data-toast="Hierarquia definida: Beta">
       <svg class="i22"><use href="#i-wolf"/></svg>
     </button>
-    <button class="radial-petal" data-label="Criar Omega" style="left:47.7px; top:177.5px;" data-toast="Hierarquia definida: Omega">
+    <button class="radial-petal" data-label="Criar Omega" style="left:130px; top:225px;" data-toast="Hierarquia definida: Omega">
       <svg class="i22"><use href="#i-moon"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Alimentar-se" style="left:35px; top:130px;" data-toast="Licantropo se alimentou">
+      <svg class="i22"><use href="#i-heart"/></svg>
     </button>
 
     <button class="radial-back-btn" id="btnBackFromWerewolf"><svg class="i14 back-arrow"><use href="#i-chevron-right"/></svg>Voltar ao menu principal</button>
+    <div class="radial-hint">Pressione <span>E</span> ou <span>ESC</span> para fechar</div>
+  </div>
+</div>
+
+<!-- ============ MENU RADIAL DE ESQUELETO ============ -->
+<div class="radial-overlay theme-skeleton" id="radialSkeleton" hidden>
+  <div class="radial-wheel small">
+    <svg class="radial-ring" viewBox="0 0 260 260">
+      <circle cx="130" cy="130" r="96" />
+    </svg>
+    <div class="radial-hub">
+      <strong class="radial-hub-title">Esqueleto</strong>
+      <small class="radial-hub-sub">Escolha a ação</small>
+    </div>
+
+    <button class="radial-petal" data-label="Transformar Esqueleto" style="left:130px; top:35px;" data-toast="Transformado em Esqueleto">
+      <svg class="i22"><use href="#i-skull"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Passar Magia do Chaos" style="left:220.3px; top:100.6px;" data-toast="Magia do Chaos concedida">
+      <svg class="i22"><use href="#i-gem"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Remover Magia do Chaos" style="left:185.9px; top:206.9px;" data-toast="Magia do Chaos removida">
+      <svg class="i22"><use href="#i-x"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Adicionar Maldição" style="left:74.1px; top:206.9px;" data-toast="Maldição adicionada">
+      <svg class="i22"><use href="#i-star"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Remover Maldição" style="left:39.7px; top:100.6px;" data-toast="Maldição removida">
+      <svg class="i22"><use href="#i-check"/></svg>
+    </button>
+
+    <button class="radial-back-btn" id="btnBackFromSkeleton"><svg class="i14 back-arrow"><use href="#i-chevron-right"/></svg>Voltar ao menu principal</button>
     <div class="radial-hint">Pressione <span>E</span> ou <span>ESC</span> para fechar</div>
   </div>
 </div>
