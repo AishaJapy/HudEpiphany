@@ -1160,7 +1160,7 @@
     <button class="radial-petal" data-label="Apresentar" style="left:140px; top:30px;" data-toast="Apresentar: nome exibido acima da cabeça">
       <svg class="i22"><use href="#i-user"/></svg>
     </button>
-    <button class="radial-petal" data-label="Negociar" style="left:244.6px; top:106px;" data-toast="Pedido de negociação enviado">
+    <button class="radial-petal" id="btnOpenTrade" data-label="Negociar" style="left:244.6px; top:106px;">
       <svg class="i22"><use href="#i-coins"/></svg>
     </button>
     <button class="radial-petal" data-label="Convidar para o Clã" data-sub="Requer Líder/Oficial" style="left:204.6px; top:229px;" data-toast="Convite de clã enviado">
@@ -1174,6 +1174,116 @@
     </button>
 
     <div class="radial-hint">Pressione <span>E</span> para fechar</div>
+  </div>
+</div>
+
+<!-- ============ JANELA DE NEGOCIAÇÃO ============ -->
+<div class="trade-overlay" id="tradeWindow" hidden>
+  <div class="trade-window">
+    <div class="trade-rune-strip" aria-hidden="true"></div>
+
+    <header class="trade-head">
+      <div class="trade-head-title">
+        <svg class="i20"><use href="#i-coins"/></svg>
+        <div>
+          <h2>Negociação</h2>
+          <small>Barak Daluryan <svg class="i12"><use href="#i-x"/></svg> Serana Noctis</small>
+        </div>
+      </div>
+      <div class="trade-head-actions">
+        <button class="close-btn" id="btnTradeClose"><svg class="i16"><use href="#i-x"/></svg>Fechar</button>
+      </div>
+    </header>
+
+    <div class="trade-body">
+      <!-- coluna esquerda: inventário -->
+      <div class="trade-inventory-col">
+        <div class="trade-septims-row">
+          <div class="trade-septims-display">
+            <svg class="i18"><use href="#i-coins"/></svg>
+            <div><strong id="tradeMySeptimsTotal">365</strong><small>Seus Septims</small></div>
+          </div>
+          <div class="trade-septims-offer">
+            <label>Oferecer Septims</label>
+            <div class="trade-septims-offer-input">
+              <input type="number" id="tradeSeptimsInput" min="0" max="365" value="0">
+              <button class="btn btn-ghost" id="btnTradeSeptimsAdd">Definir</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="subtabs wrap" id="tradeCategoryFilters">
+          <button class="subtab is-active" data-cat="todos">Todos</button>
+          <button class="subtab" data-cat="armas">Armas</button>
+          <button class="subtab" data-cat="armaduras">Armaduras</button>
+          <button class="subtab" data-cat="pocoes">Poções</button>
+          <button class="subtab" data-cat="materiais">Materiais</button>
+          <button class="subtab" data-cat="diversos">Diversos</button>
+        </div>
+
+        <div class="trade-inventory-list-head">
+          <span class="col-name">Item</span>
+          <span class="col-weight">Peso</span>
+        </div>
+        <div class="trade-inventory-list" id="tradeInventoryGrid"></div>
+      </div>
+
+      <!-- coluna direita: minha oferta + oferta do outro jogador -->
+      <div class="trade-offers-col">
+        <div class="trade-offer-panel mine">
+          <div class="trade-offer-head">
+            <strong>Sua oferta</strong>
+            <span class="pill" id="tradeMyLockPill">Destrancado</span>
+          </div>
+          <div class="trade-offer-septims">
+            <svg class="i16"><use href="#i-coins"/></svg>
+            <span id="tradeMySeptimsOffered">0</span> Septims
+          </div>
+          <div class="trade-offer-list" id="tradeMyOfferList">
+            <div class="trade-offer-empty">Clique em um item do seu inventário para oferecer</div>
+          </div>
+        </div>
+
+        <div class="trade-offer-panel theirs">
+          <div class="trade-offer-head">
+            <strong>Oferta de Serana Noctis</strong>
+            <span class="pill" id="tradeTheirLockPill">Destrancado</span>
+          </div>
+          <div class="trade-offer-septims">
+            <svg class="i16"><use href="#i-coins"/></svg>
+            <span id="tradeTheirSeptimsOffered">20</span> Septims
+          </div>
+          <div class="trade-offer-list" id="tradeTheirOfferList"></div>
+          <button class="trade-test-toggle" id="btnTradeTheirLockToggle">(teste) Trancar/destrancar Serana</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="trade-foot">
+      <button class="btn btn-ghost" id="btnTradeLock"><svg class="i16"><use href="#i-lock"/></svg>Trancar oferta</button>
+      <div class="trade-foot-status">
+        <span id="tradeStatusText">Aguardando ambos os jogadores trancarem a oferta...</span>
+      </div>
+      <button class="btn btn-primary" id="btnTradeConfirm" disabled><svg class="i16"><use href="#i-check"/></svg>Confirmar troca</button>
+    </footer>
+  </div>
+</div>
+
+<!-- seletor de quantidade ao oferecer um item empilhável -->
+<div class="qty-overlay" id="qtyOverlay" hidden>
+  <div class="qty-picker">
+    <div class="qty-picker-icon"><svg class="i28" id="qtyPickerIcon"><use href="#i-star"/></svg></div>
+    <strong id="qtyPickerName">Item</strong>
+    <small>Disponível: <span id="qtyPickerMax">1</span></small>
+    <div class="qty-stepper">
+      <button id="qtyMinus">−</button>
+      <input type="number" id="qtyInput" value="1" min="1">
+      <button id="qtyPlus">+</button>
+    </div>
+    <div class="qty-picker-actions">
+      <button class="btn btn-ghost" id="qtyCancel">Cancelar</button>
+      <button class="btn btn-primary" id="qtyConfirm">Oferecer</button>
+    </div>
   </div>
 </div>
 

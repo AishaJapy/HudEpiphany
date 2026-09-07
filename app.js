@@ -93,7 +93,9 @@
       e.preventDefault();
       toggleRadial();
     } else if (e.key === 'Escape'){
-      if (!radialMenu.hidden) closeRadial();
+      if (qtyOverlay && !qtyOverlay.hidden) closeQtyPicker();
+      else if (tradeWindow && !tradeWindow.hidden) closeTradeWindow();
+      else if (!radialMenu.hidden) closeRadial();
       else if (!app.hidden) closePanel();
     }
   });
@@ -671,5 +673,237 @@
       setBar('stamina', barState.stamina + 3);
     }
   }, 1000);
+
+  /* ================= JANELA DE NEGOCIAÇÃO ================= */
+  const TRADE_INVENTORY = [
+    { id:1,  name:'Espada de Aço',           icon:'i-swords', category:'armas',     qty:1,  weight:8   },
+    { id:2,  name:'Machado de Batalha',      icon:'i-axe',    category:'armas',     qty:1,  weight:14  },
+    { id:3,  name:'Escudo Reforçado',        icon:'i-shield', category:'armaduras', qty:1,  weight:12  },
+    { id:4,  name:'Elmo de Ferro',           icon:'i-shield', category:'armaduras', qty:1,  weight:5   },
+    { id:5,  name:'Poção de Cura',           icon:'i-heart',  category:'pocoes',    qty:6,  weight:0.5 },
+    { id:6,  name:'Poção de Estamina',       icon:'i-bolt',   category:'pocoes',    qty:4,  weight:0.5 },
+    { id:7,  name:'Grimório de Cura Maior',  icon:'i-book',   category:'pocoes',    qty:1,  weight:1   },
+    { id:8,  name:'Nirnroot',                icon:'i-star',   category:'materiais', qty:15, weight:0.1 },
+    { id:9,  name:'Escama de Dragão',        icon:'i-dragon', category:'materiais', qty:2,  weight:3   },
+    { id:10, name:'Presa de Lobo',           icon:'i-wolf',   category:'materiais', qty:5,  weight:0.5 },
+    { id:11, name:'Amuleto Antigo',          icon:'i-crown',  category:'diversos',  qty:1,  weight:0.2 },
+    { id:12, name:'Joia Rúnica',             icon:'i-gem',    category:'diversos',  qty:3,  weight:0.3 },
+  ];
+
+  function freshTradeState(){
+    return {
+      mySeptimsTotal: 365,
+      mySeptimsOffered: 0,
+      theirSeptimsOffered: 20,
+      myOffered: [],
+      theirOffered: [{ id:'t1', name:'Adaga Élfica', icon:'i-swords', qty:1 }],
+      myLocked: false,
+      theirLocked: false,
+      activeCategory: 'todos',
+    };
+  }
+  let tradeState = freshTradeState();
+  let qtyPickerItem = null;
+
+  const tradeWindow = document.getElementById('tradeWindow');
+  const tradeInventoryGrid = document.getElementById('tradeInventoryGrid');
+  const tradeMyOfferList = document.getElementById('tradeMyOfferList');
+  const tradeTheirOfferList = document.getElementById('tradeTheirOfferList');
+  const qtyOverlay = document.getElementById('qtyOverlay');
+
+  function offeredQtyFor(id){
+    return tradeState.myOffered.filter(o=>o.id===id).reduce((s,o)=>s+o.qty,0);
+  }
+  function availableQtyFor(item){
+    return item.qty - offeredQtyFor(item.id);
+  }
+
+  function renderTradeInventory(){
+    const cat = tradeState.activeCategory;
+    tradeInventoryGrid.innerHTML = '';
+    TRADE_INVENTORY
+      .filter(item => cat === 'todos' || item.category === cat)
+      .forEach(item=>{
+        const available = availableQtyFor(item);
+        const card = document.createElement('div');
+        card.className = 'trade-item-row' + (available <= 0 || tradeState.myLocked ? ' disabled' : '');
+        card.innerHTML = `
+          <div class="item-icon"><svg class="i16"><use href="#${item.icon}"/></svg></div>
+          <div class="item-name">${item.name}${item.qty > 1 ? ` <em>×${available}</em>` : ''}</div>
+          <div class="item-weight">${item.weight}</div>
+        `;
+        card.addEventListener('click', ()=>{
+          if (tradeState.myLocked || available <= 0) return;
+          if (available === 1){
+            addToMyOffer(item, 1);
+          } else {
+            openQtyPicker(item, available);
+          }
+        });
+        tradeInventoryGrid.appendChild(card);
+      });
+  }
+
+  function renderTradeOfferLists(){
+    tradeMyOfferList.innerHTML = '';
+    if (tradeState.myOffered.length === 0){
+      tradeMyOfferList.innerHTML = '<div class="trade-offer-empty">Clique em um item do seu inventário para oferecer</div>';
+    } else {
+      tradeState.myOffered.forEach((offer, idx)=>{
+        const chip = document.createElement('div');
+        chip.className = 'trade-offer-chip' + (tradeState.myLocked ? '' : ' removable');
+        chip.title = tradeState.myLocked ? '' : 'Clique para remover da troca';
+        chip.innerHTML = `
+          <div class="item-icon"><svg class="i14"><use href="#${offer.icon}"/></svg></div>
+          <div class="chip-info"><strong>${offer.name}</strong>${offer.qty > 1 ? ` ×${offer.qty}` : ''}</div>
+        `;
+        if (!tradeState.myLocked){
+          chip.addEventListener('click', ()=> removeFromMyOffer(idx));
+        }
+        tradeMyOfferList.appendChild(chip);
+      });
+    }
+
+    tradeTheirOfferList.innerHTML = '';
+    if (tradeState.theirOffered.length === 0){
+      tradeTheirOfferList.innerHTML = '<div class="trade-offer-empty">Nenhum item oferecido ainda</div>';
+    } else {
+      tradeState.theirOffered.forEach(offer=>{
+        const chip = document.createElement('div');
+        chip.className = 'trade-offer-chip';
+        chip.innerHTML = `
+          <div class="item-icon"><svg class="i14"><use href="#${offer.icon}"/></svg></div>
+          <div class="chip-info"><strong>${offer.name}</strong>${offer.qty > 1 ? ` ×${offer.qty}` : ''}</div>
+        `;
+        tradeTheirOfferList.appendChild(chip);
+      });
+    }
+
+    document.getElementById('tradeMySeptimsOffered').textContent = tradeState.mySeptimsOffered;
+    document.getElementById('tradeTheirSeptimsOffered').textContent = tradeState.theirSeptimsOffered;
+  }
+
+  function addToMyOffer(item, qty){
+    const existing = tradeState.myOffered.find(o=>o.id===item.id);
+    if (existing) existing.qty += qty;
+    else tradeState.myOffered.push({ id:item.id, name:item.name, icon:item.icon, qty });
+    renderTradeInventory();
+    renderTradeOfferLists();
+  }
+  function removeFromMyOffer(idx){
+    tradeState.myOffered.splice(idx, 1);
+    renderTradeInventory();
+    renderTradeOfferLists();
+  }
+
+  function openQtyPicker(item, available){
+    qtyPickerItem = item;
+    document.getElementById('qtyPickerIcon').querySelector('use').setAttribute('href', '#'+item.icon);
+    document.getElementById('qtyPickerName').textContent = item.name;
+    document.getElementById('qtyPickerMax').textContent = available;
+    const input = document.getElementById('qtyInput');
+    input.value = 1; input.max = available; input.min = 1;
+    qtyOverlay.hidden = false;
+  }
+  function closeQtyPicker(){
+    qtyOverlay.hidden = true;
+    qtyPickerItem = null;
+  }
+  document.getElementById('qtyMinus').addEventListener('click', ()=>{
+    const input = document.getElementById('qtyInput');
+    input.value = Math.max(1, parseInt(input.value||1,10) - 1);
+  });
+  document.getElementById('qtyPlus').addEventListener('click', ()=>{
+    const input = document.getElementById('qtyInput');
+    const max = parseInt(input.max||1,10);
+    input.value = Math.min(max, parseInt(input.value||1,10) + 1);
+  });
+  document.getElementById('qtyCancel').addEventListener('click', closeQtyPicker);
+  document.getElementById('qtyConfirm').addEventListener('click', ()=>{
+    if (!qtyPickerItem) return;
+    const input = document.getElementById('qtyInput');
+    const max = parseInt(input.max||1,10);
+    const qty = Math.min(max, Math.max(1, parseInt(input.value||1,10)));
+    addToMyOffer(qtyPickerItem, qty);
+    closeQtyPicker();
+  });
+  qtyOverlay.addEventListener('click', (e)=>{ if (e.target === qtyOverlay) closeQtyPicker(); });
+
+  document.getElementById('tradeCategoryFilters').addEventListener('click', (e)=>{
+    const btn = e.target.closest('.subtab');
+    if (!btn) return;
+    document.querySelectorAll('#tradeCategoryFilters .subtab').forEach(b=>b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    tradeState.activeCategory = btn.dataset.cat;
+    renderTradeInventory();
+  });
+
+  const tradeSeptimsInput = document.getElementById('tradeSeptimsInput');
+  document.getElementById('btnTradeSeptimsAdd').addEventListener('click', ()=>{
+    if (tradeState.myLocked) return;
+    const val = Math.min(tradeState.mySeptimsTotal, Math.max(0, parseInt(tradeSeptimsInput.value||0,10)));
+    tradeState.mySeptimsOffered = val;
+    tradeSeptimsInput.value = val;
+    renderTradeOfferLists();
+  });
+
+  function updateTradeLockUi(){
+    const myPill = document.getElementById('tradeMyLockPill');
+    const theirPill = document.getElementById('tradeTheirLockPill');
+    const lockBtn = document.getElementById('btnTradeLock');
+    const confirmBtn = document.getElementById('btnTradeConfirm');
+    const statusText = document.getElementById('tradeStatusText');
+
+    myPill.textContent = tradeState.myLocked ? 'Trancado' : 'Destrancado';
+    myPill.classList.toggle('pill-ok', tradeState.myLocked);
+    theirPill.textContent = tradeState.theirLocked ? 'Trancado' : 'Destrancado';
+    theirPill.classList.toggle('pill-ok', tradeState.theirLocked);
+
+    lockBtn.classList.toggle('is-locked', tradeState.myLocked);
+    lockBtn.innerHTML = tradeState.myLocked
+      ? '<svg class="i16"><use href="#i-lock"/></svg>Destrancar oferta'
+      : '<svg class="i16"><use href="#i-lock"/></svg>Trancar oferta';
+
+    tradeSeptimsInput.disabled = tradeState.myLocked;
+    document.getElementById('btnTradeSeptimsAdd').disabled = tradeState.myLocked;
+
+    const bothLocked = tradeState.myLocked && tradeState.theirLocked;
+    confirmBtn.disabled = !bothLocked;
+    statusText.textContent = bothLocked
+      ? 'Os dois jogadores trancaram a oferta. Pronto para confirmar!'
+      : 'Aguardando ambos os jogadores trancarem a oferta...';
+
+    renderTradeInventory();
+    renderTradeOfferLists();
+  }
+
+  document.getElementById('btnTradeLock').addEventListener('click', ()=>{
+    tradeState.myLocked = !tradeState.myLocked;
+    updateTradeLockUi();
+  });
+  document.getElementById('btnTradeTheirLockToggle').addEventListener('click', ()=>{
+    tradeState.theirLocked = !tradeState.theirLocked;
+    updateTradeLockUi();
+  });
+  document.getElementById('btnTradeConfirm').addEventListener('click', ()=>{
+    if (!tradeState.myLocked || !tradeState.theirLocked) return;
+    toast('Troca concluída com sucesso!');
+    closeTradeWindow();
+  });
+
+  function openTradeWindow(){
+    tradeState = freshTradeState();
+    tradeSeptimsInput.value = 0;
+    document.querySelectorAll('#tradeCategoryFilters .subtab').forEach(b=>b.classList.remove('is-active'));
+    document.querySelector('#tradeCategoryFilters .subtab[data-cat="todos"]').classList.add('is-active');
+    updateTradeLockUi();
+    tradeWindow.hidden = false;
+  }
+  function closeTradeWindow(){
+    tradeWindow.hidden = true;
+  }
+  document.getElementById('btnOpenTrade').addEventListener('click', openTradeWindow);
+  document.getElementById('btnTradeClose').addEventListener('click', closeTradeWindow);
+  tradeWindow.addEventListener('click', (e)=>{ if (e.target === tradeWindow) closeTradeWindow(); });
 
 })();
