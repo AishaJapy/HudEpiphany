@@ -10,6 +10,7 @@
   function openPanel(){
     app.hidden = false;
     hint.style.display = 'none';
+    if (!radialMenu.hidden) closeRadial();
   }
   function closePanel(){
     app.hidden = true;
@@ -19,14 +20,53 @@
     app.hidden ? openPanel() : closePanel();
   }
 
+  /* ================= MENU RADIAL (tecla E) ================= */
+  const radialMenu = document.getElementById('radialMenu');
+  const radialHubTitle = document.getElementById('radialHubTitle');
+  const radialHubSub = document.getElementById('radialHubSub');
+  const RADIAL_DEFAULT_TITLE = 'Ações';
+  const RADIAL_DEFAULT_SUB = radialHubSub ? radialHubSub.textContent : '';
+
+  function openRadial(){
+    if (!app.hidden) return; // não abre com o menu K aberto
+    radialMenu.hidden = false;
+  }
+  function closeRadial(){
+    radialMenu.hidden = true;
+    radialHubTitle.textContent = RADIAL_DEFAULT_TITLE;
+    radialHubSub.textContent = RADIAL_DEFAULT_SUB;
+  }
+  function toggleRadial(){
+    radialMenu.hidden ? openRadial() : closeRadial();
+  }
+
+  document.querySelectorAll('.radial-petal').forEach(petal=>{
+    petal.addEventListener('mouseenter', ()=>{
+      radialHubTitle.textContent = petal.dataset.label || RADIAL_DEFAULT_TITLE;
+      radialHubSub.textContent = petal.dataset.sub || '';
+    });
+    petal.addEventListener('mouseleave', ()=>{
+      radialHubTitle.textContent = RADIAL_DEFAULT_TITLE;
+      radialHubSub.textContent = RADIAL_DEFAULT_SUB;
+    });
+    petal.addEventListener('click', ()=> closeRadial());
+  });
+  radialMenu.addEventListener('click', (e)=>{
+    if (e.target === radialMenu) closeRadial();
+  });
+
   window.addEventListener('keydown', (e)=>{
     const tag = (e.target.tagName || '').toLowerCase();
     const typing = tag === 'input' || tag === 'select' || tag === 'textarea';
     if ((e.key === 'k' || e.key === 'K') && !typing){
       e.preventDefault();
       togglePanel();
-    } else if (e.key === 'Escape' && !app.hidden){
-      closePanel();
+    } else if ((e.key === 'e' || e.key === 'E') && !typing){
+      e.preventDefault();
+      toggleRadial();
+    } else if (e.key === 'Escape'){
+      if (!radialMenu.hidden) closeRadial();
+      else if (!app.hidden) closePanel();
     }
   });
   document.getElementById('closeBtn').addEventListener('click', closePanel);

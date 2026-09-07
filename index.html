@@ -1145,6 +1145,38 @@
   </div>
 </div>
 
+<!-- ============ MENU RADIAL (tecla E) ============ -->
+<div class="radial-overlay" id="radialMenu" hidden>
+  <div class="radial-wheel">
+    <svg class="radial-ring" viewBox="0 0 280 280">
+      <circle cx="140" cy="140" r="108" />
+    </svg>
+
+    <div class="radial-hub">
+      <strong class="radial-hub-title" id="radialHubTitle">Ações</strong>
+      <small class="radial-hub-sub" id="radialHubSub">Barak Daluryan</small>
+    </div>
+
+    <button class="radial-petal" data-label="Apresentar" style="left:140px; top:30px;" data-toast="Apresentar: nome exibido acima da cabeça">
+      <svg class="i22"><use href="#i-user"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Negociar" style="left:244.6px; top:106px;" data-toast="Pedido de negociação enviado">
+      <svg class="i22"><use href="#i-coins"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Convidar para o Clã" data-sub="Requer Líder/Oficial" style="left:204.6px; top:229px;" data-toast="Convite de clã enviado">
+      <svg class="i22"><use href="#i-shield"/></svg>
+    </button>
+    <button class="radial-petal danger" data-label="Remover do Grupo" data-sub="Requer Líder" style="left:75.4px; top:229px;" data-toast="Jogador removido do grupo">
+      <svg class="i22"><use href="#i-x"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Convidar para o Grupo" style="left:35.4px; top:106px;" data-toast="Convite de grupo enviado">
+      <svg class="i22"><use href="#i-users"/></svg>
+    </button>
+
+    <div class="radial-hint">Pressione <span>E</span> para fechar</div>
+  </div>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>
