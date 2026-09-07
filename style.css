@@ -316,6 +316,27 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
   border:1px solid var(--border-strong); transform:translateY(-1px);
 }
 
+/* runas nórdicas decorativas ao redor de cada botão do radial */
+.rune-ring{
+  position:absolute; width:90px; height:90px; transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.rune{
+  position:absolute; transform:translate(-50%,-50%);
+  font-family:'Segoe UI Historic','Noto Sans Runic','Cinzel',serif;
+  font-size:13px; line-height:1; color:rgba(140,195,255,.65);
+  text-shadow:0 0 5px rgba(87,166,255,.65), 0 0 10px rgba(87,166,255,.3);
+  animation: runeGlow 3.6s ease-in-out infinite;
+}
+.rune-ring.danger .rune{
+  color:rgba(240,164,176,.65);
+  text-shadow:0 0 5px rgba(229,105,122,.6), 0 0 10px rgba(229,105,122,.3);
+}
+@keyframes runeGlow{
+  0%,100%{ opacity:.35; }
+  50%{ opacity:.9; }
+}
+
 .panel{
   position:relative;
   width:min(1180px, 92vw);

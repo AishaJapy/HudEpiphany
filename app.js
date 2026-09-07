@@ -55,6 +55,34 @@
     if (e.target === radialMenu) closeRadial();
   });
 
+  /* ---- runas nórdicas decorativas ao redor de cada botão ---- */
+  const FUTHARK = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛜ','ᛞ','ᛟ'];
+  let futharkPick = 0;
+  function nextRune(){ return FUTHARK[(futharkPick++) % FUTHARK.length]; }
+
+  document.querySelectorAll('.radial-petal').forEach((petal, petalIndex)=>{
+    const ring = document.createElement('div');
+    ring.className = 'rune-ring' + (petal.classList.contains('danger') ? ' danger' : '');
+    ring.style.left = petal.style.left;
+    ring.style.top = petal.style.top;
+
+    const count = 7;
+    const radius = 40;
+    for (let i = 0; i < count; i++){
+      const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+      const x = 45 + radius * Math.cos(angle);
+      const y = 45 + radius * Math.sin(angle);
+      const span = document.createElement('span');
+      span.className = 'rune';
+      span.textContent = nextRune();
+      span.style.left = x + 'px';
+      span.style.top = y + 'px';
+      span.style.animationDelay = (petalIndex * 0.3 + i * 0.22) + 's';
+      ring.appendChild(span);
+    }
+    petal.parentNode.insertBefore(ring, petal);
+  });
+
   window.addEventListener('keydown', (e)=>{
     const tag = (e.target.tagName || '').toLowerCase();
     const typing = tag === 'input' || tag === 'select' || tag === 'textarea';
