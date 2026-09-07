@@ -50,6 +50,7 @@
 <symbol id="i-drop" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C12 2 5 11.2 5 15.6 5 19.7 8.1 22 12 22s7-2.3 7-6.4C19 11.2 12 2 12 2Z"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="5"/><rect x="11" y="0.5" width="2" height="4" rx="1"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="0.5" width="2" height="4" rx="1" transform="rotate(315 12 12)"/></symbol>
 <symbol id="i-snowflake" viewBox="0 0 24 24" fill="currentColor" stroke="none"><g transform="rotate(0 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(60 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(120 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(180 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(240 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><g transform="rotate(300 12 12)"><rect x="11.3" y="2" width="1.4" height="10" rx="0.7"/><rect x="9.6" y="3.6" width="4.8" height="1.3" rx="0.6"/></g><circle cx="12" cy="12" r="1.3"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></symbol>
 <symbol id="i-horse" viewBox="0 0 24 24"><path d="M6 21v-9a6 6 0 0 1 12 0v9"/><circle cx="6" cy="15.5" r=".6" fill="currentColor" stroke="none"/><circle cx="6" cy="19" r=".6" fill="currentColor" stroke="none"/><circle cx="18" cy="15.5" r=".6" fill="currentColor" stroke="none"/><circle cx="18" cy="19" r=".6" fill="currentColor" stroke="none"/></symbol>
 </defs>
 </svg>
@@ -1173,7 +1174,68 @@
       <svg class="i22"><use href="#i-users"/></svg>
     </button>
 
+    <!-- habilidades especiais, afastadas do círculo principal (só aparecem se a condição no JS for verdadeira) -->
+    <button class="radial-petal special vampire" id="btnRadialVampire" data-label="Vampirismo" style="left:38.4px; top:10px;">
+      <span class="blood-drip d1"></span><span class="blood-drip d2"></span>
+      <svg class="i22"><use href="#i-drop"/></svg>
+    </button>
+    <button class="radial-petal special werewolf" id="btnRadialWerewolf" data-label="Licantropia" style="left:241.6px; top:10px;">
+      <svg class="i22"><use href="#i-moon"/></svg>
+    </button>
+
     <div class="radial-hint">Pressione <span>E</span> para fechar</div>
+  </div>
+</div>
+
+<!-- ============ MENU RADIAL DE VAMPIRISMO ============ -->
+<div class="radial-overlay theme-vampire" id="radialVampire" hidden>
+  <div class="radial-wheel small">
+    <svg class="radial-ring" viewBox="0 0 260 260">
+      <circle cx="130" cy="130" r="96" />
+    </svg>
+    <div class="radial-hub">
+      <strong class="radial-hub-title">Vampirismo</strong>
+      <small class="radial-hub-sub">Escolha a transformação</small>
+    </div>
+
+    <button class="radial-petal" data-label="Vampiro Sangue-Puro Real" style="left:130px; top:35px;" data-toast="Transformação: Vampiro Sangue-Puro Real">
+      <svg class="i22"><use href="#i-crown"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Vampiro Puro" style="left:212.3px; top:177.5px;" data-toast="Transformação: Vampiro Puro">
+      <svg class="i22"><use href="#i-drop"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Vampiro Misto" style="left:47.7px; top:177.5px;" data-toast="Transformação: Vampiro Misto">
+      <svg class="i22"><use href="#i-gem"/></svg>
+    </button>
+
+    <button class="radial-back-btn" id="btnBackFromVampire"><svg class="i14 back-arrow"><use href="#i-chevron-right"/></svg>Voltar ao menu principal</button>
+    <div class="radial-hint">Pressione <span>E</span> ou <span>ESC</span> para fechar</div>
+  </div>
+</div>
+
+<!-- ============ MENU RADIAL DE LICANTROPIA ============ -->
+<div class="radial-overlay theme-werewolf" id="radialWerewolf" hidden>
+  <div class="radial-wheel small">
+    <svg class="radial-ring" viewBox="0 0 260 260">
+      <circle cx="130" cy="130" r="96" />
+    </svg>
+    <div class="radial-hub">
+      <strong class="radial-hub-title">Licantropia</strong>
+      <small class="radial-hub-sub">Escolha a hierarquia</small>
+    </div>
+
+    <button class="radial-petal" data-label="Criar Alpha" style="left:130px; top:35px;" data-toast="Hierarquia definida: Alpha">
+      <svg class="i22"><use href="#i-crown"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Criar Beta" style="left:212.3px; top:177.5px;" data-toast="Hierarquia definida: Beta">
+      <svg class="i22"><use href="#i-wolf"/></svg>
+    </button>
+    <button class="radial-petal" data-label="Criar Omega" style="left:47.7px; top:177.5px;" data-toast="Hierarquia definida: Omega">
+      <svg class="i22"><use href="#i-moon"/></svg>
+    </button>
+
+    <button class="radial-back-btn" id="btnBackFromWerewolf"><svg class="i14 back-arrow"><use href="#i-chevron-right"/></svg>Voltar ao menu principal</button>
+    <div class="radial-hint">Pressione <span>E</span> ou <span>ESC</span> para fechar</div>
   </div>
 </div>
 

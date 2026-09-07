@@ -10,7 +10,7 @@
   function openPanel(){
     app.hidden = false;
     hint.style.display = 'none';
-    if (!radialMenu.hidden) closeRadial();
+    if (anyRadialOpen()) closeAnyOpenRadial();
   }
   function closePanel(){
     app.hidden = true;
@@ -20,39 +20,84 @@
     app.hidden ? openPanel() : closePanel();
   }
 
+  /* ================= FLAGS DO PERSONAGEM (setadas pelo jogo) ================= */
+  // Em produção, o jogo deve setar essas variáveis conforme o estado real do personagem.
+  // Para demonstração, ambas ficam ligadas para os botões aparecerem.
+  const playerIsVampire = true;
+  const playerIsWerewolf = true;
+
   /* ================= MENU RADIAL (tecla E) ================= */
   const radialMenu = document.getElementById('radialMenu');
-  const radialHubTitle = document.getElementById('radialHubTitle');
-  const radialHubSub = document.getElementById('radialHubSub');
-  const RADIAL_DEFAULT_TITLE = 'Ações';
-  const RADIAL_DEFAULT_SUB = radialHubSub ? radialHubSub.textContent : '';
+  const radialVampire = document.getElementById('radialVampire');
+  const radialWerewolf = document.getElementById('radialWerewolf');
 
-  function openRadial(){
-    if (!app.hidden) return; // não abre com o menu K aberto
-    radialMenu.hidden = false;
+  document.getElementById('btnRadialVampire').hidden = !playerIsVampire;
+  document.getElementById('btnRadialWerewolf').hidden = !playerIsWerewolf;
+
+  function setupRadial(overlay){
+    const hubTitle = overlay.querySelector('.radial-hub-title');
+    const hubSub = overlay.querySelector('.radial-hub-sub');
+    const defaultTitle = hubTitle.textContent;
+    const defaultSub = hubSub.textContent;
+
+    function open(){
+      if (!app.hidden) return; // não abre com o menu K aberto
+      [radialMenu, radialVampire, radialWerewolf].forEach(o=>{ if (o !== overlay) o.hidden = true; });
+      overlay.hidden = false;
+    }
+    function close(){
+      overlay.hidden = true;
+      hubTitle.textContent = defaultTitle;
+      hubSub.textContent = defaultSub;
+    }
+
+    overlay.querySelectorAll('.radial-petal').forEach(petal=>{
+      petal.addEventListener('mouseenter', ()=>{
+        hubTitle.textContent = petal.dataset.label || defaultTitle;
+        hubSub.textContent = petal.dataset.sub || '';
+      });
+      petal.addEventListener('mouseleave', ()=>{
+        hubTitle.textContent = defaultTitle;
+        hubSub.textContent = defaultSub;
+      });
+      petal.addEventListener('click', ()=> close());
+    });
+    overlay.addEventListener('click', (e)=>{ if (e.target === overlay) close(); });
+
+    return { open, close };
   }
-  function closeRadial(){
-    radialMenu.hidden = true;
-    radialHubTitle.textContent = RADIAL_DEFAULT_TITLE;
-    radialHubSub.textContent = RADIAL_DEFAULT_SUB;
+
+  const mainRadial = setupRadial(radialMenu);
+  const vampireRadial = setupRadial(radialVampire);
+  const werewolfRadial = setupRadial(radialWerewolf);
+
+  function anyRadialOpen(){
+    return !radialMenu.hidden || !radialVampire.hidden || !radialWerewolf.hidden;
+  }
+  function closeAnyOpenRadial(){
+    if (!radialMenu.hidden) mainRadial.close();
+    if (!radialVampire.hidden) vampireRadial.close();
+    if (!radialWerewolf.hidden) werewolfRadial.close();
   }
   function toggleRadial(){
-    radialMenu.hidden ? openRadial() : closeRadial();
+    anyRadialOpen() ? closeAnyOpenRadial() : mainRadial.open();
   }
 
-  document.querySelectorAll('.radial-petal').forEach(petal=>{
-    petal.addEventListener('mouseenter', ()=>{
-      radialHubTitle.textContent = petal.dataset.label || RADIAL_DEFAULT_TITLE;
-      radialHubSub.textContent = petal.dataset.sub || '';
-    });
-    petal.addEventListener('mouseleave', ()=>{
-      radialHubTitle.textContent = RADIAL_DEFAULT_TITLE;
-      radialHubSub.textContent = RADIAL_DEFAULT_SUB;
-    });
-    petal.addEventListener('click', ()=> closeRadial());
+  document.getElementById('btnRadialVampire').addEventListener('click', ()=>{
+    mainRadial.close();
+    vampireRadial.open();
   });
-  radialMenu.addEventListener('click', (e)=>{
-    if (e.target === radialMenu) closeRadial();
+  document.getElementById('btnRadialWerewolf').addEventListener('click', ()=>{
+    mainRadial.close();
+    werewolfRadial.open();
+  });
+  document.getElementById('btnBackFromVampire').addEventListener('click', ()=>{
+    vampireRadial.close();
+    mainRadial.open();
+  });
+  document.getElementById('btnBackFromWerewolf').addEventListener('click', ()=>{
+    werewolfRadial.close();
+    mainRadial.open();
   });
 
   /* ---- runas nórdicas decorativas ao redor de cada botão ---- */
@@ -61,8 +106,16 @@
   function nextRune(){ return FUTHARK[(futharkPick++) % FUTHARK.length]; }
 
   document.querySelectorAll('.radial-petal').forEach((petal, petalIndex)=>{
+    let variant = '';
+    if (petal.closest('.theme-vampire') || petal.classList.contains('vampire') || petal.classList.contains('danger')) variant = ' danger';
+    else if (petal.closest('.theme-werewolf') || petal.classList.contains('werewolf')) variant = ' werewolf';
+
+    // botões especiais flutuam soltos do círculo — a runa precisa flutuar junto
+    if (petal.classList.contains('vampire')) variant += ' float-vamp';
+    else if (petal.classList.contains('werewolf')) variant += ' float-were';
+
     const ring = document.createElement('div');
-    ring.className = 'rune-ring' + (petal.classList.contains('danger') ? ' danger' : '');
+    ring.className = 'rune-ring' + variant;
     ring.style.left = petal.style.left;
     ring.style.top = petal.style.top;
 
@@ -95,7 +148,7 @@
     } else if (e.key === 'Escape'){
       if (qtyOverlay && !qtyOverlay.hidden) closeQtyPicker();
       else if (tradeWindow && !tradeWindow.hidden) closeTradeWindow();
-      else if (!radialMenu.hidden) closeRadial();
+      else if (anyRadialOpen()) closeAnyOpenRadial();
       else if (!app.hidden) closePanel();
     }
   });

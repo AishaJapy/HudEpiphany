@@ -316,6 +316,18 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
   border:1px solid var(--border-strong); transform:translateY(-1px);
 }
 
+.radial-back-btn{
+  position:absolute; left:50%; bottom:-82px; transform:translateX(-50%);
+  display:flex; align-items:center; gap:6px; white-space:nowrap;
+  background:rgba(8,14,26,.55); border:1px solid var(--border-soft); color:var(--text-mid);
+  font-size:11.5px; font-weight:600; padding:7px 14px; border-radius:999px; backdrop-filter: blur(8px);
+  transition:.15s;
+}
+.radial-back-btn:hover{ color:var(--text-hi); border-color:var(--border-strong); background:rgba(16,26,42,.7); }
+.radial-back-btn .back-arrow{ transform:rotate(180deg); }
+.theme-vampire .radial-back-btn:hover{ border-color:rgba(200,60,70,.5); color:#ffd0d4; }
+.theme-werewolf .radial-back-btn:hover{ border-color:rgba(255,255,255,.5); color:#fff; }
+
 /* runas nórdicas decorativas ao redor de cada botão do radial */
 .rune-ring{
   position:absolute; width:90px; height:90px; transform:translate(-50%,-50%);
@@ -332,9 +344,113 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
   color:rgba(240,164,176,.65);
   text-shadow:0 0 5px rgba(229,105,122,.6), 0 0 10px rgba(229,105,122,.3);
 }
+.rune-ring.werewolf .rune{
+  color:rgba(20,20,22,.9);
+  text-shadow:0 0 4px rgba(255,255,255,.85), 0 0 10px rgba(255,255,255,.5);
+}
 @keyframes runeGlow{
   0%,100%{ opacity:.35; }
   50%{ opacity:.9; }
+}
+
+/* ---- habilidades especiais (Vampirismo / Licantropia), afastadas do círculo principal, flutuando ---- */
+.radial-petal.special{ box-shadow: 0 6px 20px rgba(0,0,0,.6); }
+@keyframes specialFloat{
+  0%,100%{ margin-top:0; margin-left:0; }
+  50%{ margin-top:-10px; margin-left:-3px; }
+}
+/* a runa é um elemento separado do botão: precisa da mesma flutuação pra acompanhar */
+.rune-ring.float-vamp{ animation: specialFloatRing 3.8s ease-in-out infinite; }
+.rune-ring.float-were{ animation: specialFloatRing 4.4s ease-in-out infinite reverse; }
+@keyframes specialFloatRing{
+  0%,100%{ transform:translate(-50%,-50%) translate(0,0); }
+  50%{ transform:translate(-50%,-50%) translate(-3px,-10px); }
+}
+
+.radial-petal.vampire{
+  background: radial-gradient(circle at 32% 26%, rgba(160,20,30,.35), rgba(20,4,6,.95) 74%);
+  border-color: rgba(190,40,50,.55); color:#ff8a95;
+  animation: vampirePulse 2.2s ease-in-out infinite, specialFloat 3.8s ease-in-out infinite;
+}
+.radial-petal.vampire:hover{
+  border-color:#e5384a; color:#ffd0d4;
+  background: radial-gradient(circle at 32% 26%, rgba(200,30,40,.5), rgba(30,5,8,.97) 74%);
+  box-shadow: 0 0 0 3px rgba(200,30,40,.2), 0 0 26px rgba(200,30,40,.55), 0 8px 18px rgba(0,0,0,.55);
+}
+@keyframes vampirePulse{
+  0%,100%{ box-shadow: 0 0 10px rgba(180,20,30,.35), 0 6px 20px rgba(0,0,0,.6); }
+  50%{ box-shadow: 0 0 22px rgba(200,30,40,.65), 0 6px 20px rgba(0,0,0,.6); }
+}
+.blood-drip{
+  position:absolute; left:50%; bottom:-4px; width:4px; height:9px; border-radius:0 0 50% 50% / 0 0 60% 60%;
+  background: linear-gradient(180deg, #8a1220, #4a0810);
+  opacity:0; animation: bloodDrip 3.4s ease-in infinite;
+  pointer-events:none;
+}
+.blood-drip.d2{ left:62%; animation-delay:1.6s; height:7px; }
+@keyframes bloodDrip{
+  0%{ transform:translate(-50%,0) scaleY(.6); opacity:0; }
+  10%{ opacity:.9; }
+  70%{ opacity:.7; }
+  100%{ transform:translate(-50%,22px) scaleY(1.3); opacity:0; }
+}
+
+.radial-petal.werewolf{
+  background: radial-gradient(circle at 32% 26%, rgba(40,40,44,.4), rgba(3,3,4,.98) 74%);
+  border-color: rgba(255,255,255,.55); color:#ffffff;
+  animation: werewolfPulse 3s ease-in-out infinite, specialFloat 4.4s ease-in-out infinite reverse;
+}
+.radial-petal.werewolf:hover{
+  border-color:#fff; color:#fff;
+  background: radial-gradient(circle at 32% 26%, rgba(60,60,64,.5), rgba(4,4,5,.99) 74%);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.2), 0 0 26px rgba(255,255,255,.6), 0 8px 18px rgba(0,0,0,.55);
+}
+@keyframes werewolfPulse{
+  0%,100%{ box-shadow: 0 0 8px rgba(255,255,255,.3), 0 6px 20px rgba(0,0,0,.6); }
+  50%{ box-shadow: 0 0 20px rgba(255,255,255,.65), 0 6px 20px rgba(0,0,0,.6); }
+}
+
+/* ---- temas dos sub-menus radiais especiais ---- */
+.radial-wheel.small{ width:260px; height:260px; }
+
+.theme-vampire .radial-ring{ filter: drop-shadow(0 0 16px rgba(200,30,40,.4)); }
+.theme-vampire .radial-ring circle{ stroke: rgba(200,60,70,.55); fill: rgba(20,6,8,.6); }
+.theme-vampire .radial-hub{
+  background: radial-gradient(circle at 35% 30%, rgba(200,30,40,.18), rgba(14,4,6,.92) 72%);
+  border-color: rgba(200,60,70,.55);
+  box-shadow: inset 0 0 24px rgba(0,0,0,.7), 0 0 22px rgba(200,30,40,.25);
+}
+.theme-vampire .radial-hub-title{ color:#ffd7da; }
+.theme-vampire .radial-hint{ border-color: rgba(200,60,70,.4); }
+.theme-vampire .radial-hint span{ background:rgba(200,30,40,.18); color:#ff9aa2; border-color:rgba(200,60,70,.5); }
+.theme-vampire .radial-petal{
+  background: radial-gradient(circle at 32% 26%, rgba(160,20,30,.22), rgba(16,4,6,.94) 74%);
+  border-color: rgba(190,40,50,.4); color:#ff9aa2;
+}
+.theme-vampire .radial-petal:hover{
+  border-color:#e5384a; color:#ffd0d4;
+  background: radial-gradient(circle at 32% 26%, rgba(200,30,40,.4), rgba(24,5,7,.97) 74%);
+  box-shadow: 0 0 0 3px rgba(200,30,40,.18), 0 0 22px rgba(200,30,40,.5), 0 8px 18px rgba(0,0,0,.55);
+}
+
+.theme-werewolf .radial-ring{ filter: drop-shadow(0 0 16px rgba(255,255,255,.25)); }
+.theme-werewolf .radial-ring circle{ stroke: rgba(255,255,255,.35); fill: rgba(4,4,5,.75); }
+.theme-werewolf .radial-hub{
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.1), rgba(4,4,5,.95) 72%);
+  border-color: rgba(255,255,255,.35);
+  box-shadow: inset 0 0 24px rgba(0,0,0,.75), 0 0 20px rgba(255,255,255,.18);
+}
+.theme-werewolf .radial-hub-title{ color:#ffffff; }
+.theme-werewolf .radial-hint{ border-color: rgba(255,255,255,.3); }
+.theme-werewolf .radial-hint span{ background:rgba(120,130,150,.15); color:#c7cee0; border-color:rgba(150,160,180,.4); }
+.theme-werewolf .radial-petal{
+  background: radial-gradient(circle at 32% 26%, rgba(40,40,44,.25), rgba(4,4,5,.97) 74%);
+  border-color: rgba(255,255,255,.3); color:#f0f0f2;
+}
+.theme-werewolf .radial-petal:hover{
+  border-color:#fff; color:#fff;
+  background: radial-gradient(circle at 32% 26%, rgba(60,60,64,.4), rgba(5,5,6,.99) 74%);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.18), 0 0 24px rgba(255,255,255,.5), 0 8px 18px rgba(0,0,0,.55);
 }
 
 /* ================ JANELA DE NEGOCIAÇÃO ================ */
